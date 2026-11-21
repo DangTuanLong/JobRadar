@@ -3,11 +3,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1.health import router as health_router
+from app.api.v1 import api_v1_router
 from app.core.exceptions import register_exception_handlers
 from app.core.logging import get_logger, setup_logging
-
-API_V1_PREFIX = "/api/v1"
 
 
 def create_app() -> FastAPI:
@@ -29,7 +27,7 @@ def create_app() -> FastAPI:
     )
 
     register_exception_handlers(application)
-    application.include_router(health_router, prefix=API_V1_PREFIX, tags=["health"])
+    application.include_router(api_v1_router)
 
     logger.info("JobRadar Backend API initialized.")
     return application

@@ -139,6 +139,7 @@ class EnrichmentSummary(BaseModel):
     portfolio_summary: str | None = None
     linkedin_verified: bool = False
     sources_fetched: list[str] = Field(default_factory=list)
+    source_statuses: dict[str, str] = Field(default_factory=dict)
     fetch_warnings: list[str] = Field(default_factory=list)
 
 

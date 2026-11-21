@@ -1,22 +1,28 @@
-"""Lazy singleton Supabase client and async query execution helper."""
+"""Lazy singleton Supabase client, async query wrapper, and CV storage helper."""
 
 from __future__ import annotations
 
 import asyncio
+import re
 from collections.abc import Callable
 from functools import lru_cache
+from pathlib import PurePosixPath
 from typing import TypeVar
 
 from postgrest.exceptions import APIError
 from supabase import Client, create_client
 
 from app.core.config import settings
+from app.core.constants import SUPABASE_CV_BUCKET
 from app.core.exceptions import AppException
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 T = TypeVar("T")
+
+_SAFE_FILENAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
+_MAX_FILENAME_LENGTH = 80
 
 
 @lru_cache(maxsize=1)
@@ -62,3 +68,41 @@ async def execute_supabase_query(operation: str, query_fn: Callable[[], T]) -> T
             code="DB_QUERY_ERROR",
             message=f"Database error during {operation}.",
         ) from exc
+
+
+def sanitize_filename(filename: str | None) -> str:
+    """Sanitize a user-supplied filename for safe object storage paths."""
+    raw_name = PurePosixPath((filename or "").replace("\\", "/")).name
+    cleaned = _SAFE_FILENAME_RE.sub("_", raw_name).strip("._")
+    if not cleaned:
+        return "cv_upload.bin"
+    if len(cleaned) > _MAX_FILENAME_LENGTH:
+        stem = PurePosixPath(cleaned).stem[:64]
+        suffix = PurePosixPath(cleaned).suffix[:16]
+        return f"{stem}{suffix}"
+    return cleaned
+
+
+async def upload_cv_to_storage(
+    *,
+    user_id: str,
+    job_id: str,
+    filename: str | None,
+    file_bytes: bytes,
+    content_type: str,
+    client: Client | None = None,
+) -> str:
+    """Upload a raw CV file to Supabase Storage bucket 'cvs' under {user_id}/{job_id}_{name}."""
+    safe_name = sanitize_filename(filename)
+    storage_path = f"{user_id}/{job_id}_{safe_name}"
+    supabase_client = client if client is not None else get_supabase_client()
+
+    await execute_supabase_query(
+        "upload_cv_to_storage",
+        lambda: supabase_client.storage.from_(SUPABASE_CV_BUCKET).upload(
+            path=storage_path,
+            file=file_bytes,
+            file_options={"content-type": content_type, "upsert": "true"},
+        ),
+    )
+    return f"{SUPABASE_CV_BUCKET}/{storage_path}"
