@@ -1,0 +1,302 @@
+[
+  {
+    "template_id": "android_intern",
+    "title": "Android Developer Intern",
+    "level": "intern",
+    "domain": "mobile",
+    "tech_tags": ["Kotlin", "Android", "Git"],
+    "required_skills": ["Kotlin", "Android SDK basics", "OOP", "Git", "REST API basics"],
+    "nice_to_have_skills": ["Jetpack Compose", "Coroutines", "MVVM basics"],
+    "description": "Thực tập sinh lập trình Android tham gia phát triển và bảo trì các tính năng trên ứng dụng di động, học hỏi quy trình Clean Architecture và làm việc trực tiếp cùng Senior Engineers."
+  },
+  {
+    "template_id": "android_fresher",
+    "title": "Fresher Android Developer",
+    "level": "fresher",
+    "domain": "mobile",
+    "tech_tags": ["Kotlin", "Android", "Jetpack Compose", "Coroutines"],
+    "required_skills": ["Kotlin", "Jetpack Compose", "Coroutines", "Retrofit", "MVVM", "Git"],
+    "nice_to_have_skills": ["Flow", "Room DB", "Hilt/Koin", "Unit Testing"],
+    "description": "Lập trình viên Android mới tốt nghiệp tham gia xây dựng giao diện người dùng hiện đại với Jetpack Compose, kết nối REST API, quản lý State và triển khai mô hình kiến trúc MVVM/MVI chuẩn."
+  },
+  {
+    "template_id": "android_junior",
+    "title": "Junior Android Developer",
+    "level": "junior",
+    "domain": "mobile",
+    "tech_tags": ["Kotlin", "Android", "Jetpack Compose", "Hilt", "Room"],
+    "required_skills": ["Kotlin", "Jetpack Compose", "Coroutines", "Flow", "Hilt", "Room", "Retrofit", "Clean Architecture"],
+    "nice_to_have_skills": ["CI/CD for Android", "Firebase", "Modularization", "Custom Components"],
+    "description": "Phát triển tính năng cốt lõi cho ứng dụng Android quy mô lớn, tối ưu hóa hiệu năng render UI, quản lý bộ nhớ đệm offline-first và viết unit test cho tầng Domain/Data."
+  },
+  {
+    "template_id": "android_mid",
+    "title": "Middle Android Developer",
+    "level": "mid",
+    "domain": "mobile",
+    "tech_tags": ["Kotlin", "Android", "Jetpack Compose", "Modularization", "Clean Architecture"],
+    "required_skills": ["Kotlin", "Jetpack Compose", "Coroutines", "Flow", "Clean Architecture", "Dependency Injection (Hilt)", "App Performance Optimization", "Unit/UI Test"],
+    "nice_to_have_skills": ["Kotlin Multiplatform (KMP)", "Design System", "Security & Obfuscation", "Supabase/Firebase"],
+    "description": "Chịu trách nhiệm thiết kế module tính năng, tối ưu hóa trải nghiệm người dùng, giám sát crash rate, xử lý các luồng bất đồng bộ phức tạp và cố vấn kỹ thuật cho fresher/junior."
+  },
+  {
+    "template_id": "android_senior",
+    "title": "Senior Android Architect / Lead",
+    "level": "senior",
+    "domain": "mobile",
+    "tech_tags": ["Kotlin", "Android", "System Design", "App Architecture", "Security"],
+    "required_skills": ["Kotlin", "Android System Architecture", "Performance Profiling", "Security Hardening", "CI/CD Pipeline", "Mentorship", "Cross-functional Collaboration"],
+    "nice_to_have_skills": ["Kotlin Multiplatform", "Large-scale App Modularization", "SDK Development"],
+    "description": "Định hướng kiến trúc tổng thể cho ứng dụng hàng triệu người dùng, tối ưu kích thước APK/AAB, bảo mật dữ liệu nhạy cảm, xây dựng Design System dùng chung và đào tạo đội ngũ kỹ sư mobile."
+  },
+  {
+    "template_id": "ios_fresher",
+    "title": "Fresher iOS Developer",
+    "level": "fresher",
+    "domain": "mobile",
+    "tech_tags": ["Swift", "iOS", "SwiftUI"],
+    "required_skills": ["Swift", "SwiftUI", "UIKit basics", "URLSession", "MVC/MVVM", "Git"],
+    "nice_to_have_skills": ["Combine", "CoreData", "CocoaPods/SPM"],
+    "description": "Lập trình viên iOS mới tham gia phát triển màn hình giao diện với SwiftUI, tích hợp API, xử lý bất đồng bộ và kiểm thử ứng dụng trên các thiết bị iPhone/iPad."
+  },
+  {
+    "template_id": "ios_junior",
+    "title": "Junior iOS Developer",
+    "level": "junior",
+    "domain": "mobile",
+    "tech_tags": ["Swift", "iOS", "SwiftUI", "Combine"],
+    "required_skills": ["Swift", "SwiftUI", "Combine", "MVVM", "REST API", "Auto Layout", "Git"],
+    "nice_to_have_skills": ["Async/Await", "Swift Concurrency", "Firebase", "Unit Testing"],
+    "description": "Xây dựng các module chức năng trên ứng dụng iOS, đảm bảo độ mượt mà của animation, tối ưu hóa thời gian tải mạng và xử lý thông báo đẩy (Push Notifications)."
+  },
+  {
+    "template_id": "ios_mid",
+    "title": "Middle iOS Developer",
+    "level": "mid",
+    "domain": "mobile",
+    "tech_tags": ["Swift", "iOS", "Swift Concurrency", "Clean Architecture"],
+    "required_skills": ["Swift", "SwiftUI", "Combine / Swift Concurrency", "Clean Architecture", "Memory Management (ARC)", "App Store Deployment"],
+    "nice_to_have_skills": ["Fastlane", "Modular Architecture", "CoreML"],
+    "description": "Thiết kế và phát triển tính năng phức tạp trên nền tảng iOS, tối ưu hóa mức tiêu thụ pin và RAM, xây dựng quy trình tự động hóa phát hành qua TestFlight và App Store."
+  },
+  {
+    "template_id": "flutter_fresher",
+    "title": "Fresher Flutter Developer",
+    "level": "fresher",
+    "domain": "mobile",
+    "tech_tags": ["Flutter", "Dart", "Mobile"],
+    "required_skills": ["Dart", "Flutter SDK", "State Management (Bloc/Provider)", "REST API Integration", "Git"],
+    "nice_to_have_skills": ["Clean Architecture in Flutter", "Firebase", "Android/iOS native basics"],
+    "description": "Lập trình viên Flutter đa nền tảng tham gia phát triển ứng dụng di động cho cả Android và iOS từ một codebase duy nhất, đảm bảo tính nhất quán của giao diện."
+  },
+  {
+    "template_id": "flutter_mid",
+    "title": "Middle Flutter Developer",
+    "level": "mid",
+    "domain": "mobile",
+    "tech_tags": ["Flutter", "Dart", "Bloc", "Clean Architecture"],
+    "required_skills": ["Dart", "Flutter", "Bloc pattern", "Clean Architecture", "Offline Caching", "Platform Channels (Native bridging)"],
+    "nice_to_have_skills": ["CI/CD for Flutter", "GraphQL", "Performance Profiling"],
+    "description": "Phát triển và tối ưu ứng dụng Flutter quy mô vừa và lớn, viết native bridge kết nối các SDK phần cứng đặc thù và tối ưu hóa 60fps UI rendering."
+  },
+  {
+    "template_id": "backend_python_intern",
+    "title": "Backend Python Intern",
+    "level": "intern",
+    "domain": "backend",
+    "tech_tags": ["Python", "FastAPI", "SQL"],
+    "required_skills": ["Python", "Basic SQL", "FastAPI or Flask basics", "Git", "REST API concepts"],
+    "nice_to_have_skills": ["Docker basics", "PostgreSQL", "Pydantic"],
+    "description": "Thực tập sinh Backend tham gia viết API dịch vụ cơ bản bằng Python/FastAPI, truy vấn cơ sở dữ liệu và tìm hiểu kiến trúc phần mềm hướng dịch vụ."
+  },
+  {
+    "template_id": "backend_python_fresher",
+    "title": "Fresher Backend Engineer (Python)",
+    "level": "fresher",
+    "domain": "backend",
+    "tech_tags": ["Python", "FastAPI", "PostgreSQL", "Docker"],
+    "required_skills": ["Python", "FastAPI", "Pydantic", "PostgreSQL", "SQLAlchemy or asyncpg", "Git", "Docker basics"],
+    "nice_to_have_skills": ["Redis", "Pytest", "Background Tasks", "JWT Authentication"],
+    "description": "Xây dựng các RESTful API hiệu năng cao bằng FastAPI, xử lý xác thực người dùng, tích hợp cơ sở dữ liệu quan hệ và viết unit test đảm bảo chất lượng code."
+  },
+  {
+    "template_id": "backend_python_junior",
+    "title": "Junior Backend Developer (Python)",
+    "level": "junior",
+    "domain": "backend",
+    "tech_tags": ["Python", "FastAPI", "PostgreSQL", "Redis", "Docker"],
+    "required_skills": ["Python 3.11+", "FastAPI", "PostgreSQL", "Redis Caching", "Asyncio", "Docker", "Pytest"],
+    "nice_to_have_skills": ["Celery", "Kafka basics", "Supabase", "Vector Database"],
+    "description": "Phát triển các microservice bất đồng bộ, tối ưu hóa câu lệnh SQL và chiến lược caching với Redis, xây dựng pipeline xử lý dữ liệu và duy trì độ bao phủ kiểm thử cao."
+  },
+  {
+    "template_id": "backend_python_mid",
+    "title": "Middle Backend Engineer (Python / LangGraph)",
+    "level": "mid",
+    "domain": "backend",
+    "tech_tags": ["Python", "FastAPI", "LangGraph", "pgvector", "PostgreSQL", "Docker"],
+    "required_skills": ["Python", "FastAPI", "PostgreSQL / pgvector", "Async Architecture", "LangGraph / LLM Integration", "Docker & CI/CD", "Redis"],
+    "nice_to_have_skills": ["Kubernetes", "Prometheus/Grafana", "System Design"],
+    "description": "Chịu trách nhiệm thiết kế backend cho các ứng dụng tích hợp AI Agent, tối ưu hóa tìm kiếm vector similarity trên PostgreSQL, quản trị queue và bảo mật API."
+  },
+  {
+    "template_id": "backend_python_senior",
+    "title": "Senior Backend Architect (Python)",
+    "level": "senior",
+    "domain": "backend",
+    "tech_tags": ["Python", "FastAPI", "Microservices", "System Design", "Cloud"],
+    "required_skills": ["Python", "Microservices Design", "High Concurrency", "Database Optimization", "Cloud Architecture (AWS/GCP)", "Security & Compliance"],
+    "nice_to_have_skills": ["Distributed Tracing", "Kafka Streaming", "AI Orchestration"],
+    "description": "Quy hoạch kiến trúc hệ thống phân tán chịu tải cao, định chuẩn framework nội bộ, tối ưu độ trễ P99 và đảm bảo hệ thống đạt độ sẵn sàng 99.99%."
+  },
+  {
+    "template_id": "backend_java_fresher",
+    "title": "Fresher Java Backend Developer",
+    "level": "fresher",
+    "domain": "backend",
+    "tech_tags": ["Java", "Spring Boot", "MySQL", "Git"],
+    "required_skills": ["Java Core", "Spring Boot", "Hibernate / JPA", "MySQL or PostgreSQL", "REST API", "Git"],
+    "nice_to_have_skills": ["Docker", "Maven/Gradle", "JUnit"],
+    "description": "Lập trình viên Java mới tham gia phát triển nghiệp vụ Backend doanh nghiệp với Spring Boot, thiết kế schema bảng và viết các tầng Repository/Service chuẩn chỉ."
+  },
+  {
+    "template_id": "backend_java_junior",
+    "title": "Junior Java Developer",
+    "level": "junior",
+    "domain": "backend",
+    "tech_tags": ["Java", "Spring Boot", "PostgreSQL", "Microservices"],
+    "required_skills": ["Java 17+", "Spring Boot", "Spring Security", "PostgreSQL", "Docker", "RESTful Web Services", "JUnit"],
+    "nice_to_have_skills": ["Kafka", "Redis", "ELK Stack"],
+    "description": "Phát triển và tích hợp các dịch vụ trong hệ thống microservices, tối ưu truy vấn cơ sở dữ liệu lớn và thiết lập cơ chế giám sát log tập trung."
+  },
+  {
+    "template_id": "backend_java_mid",
+    "title": "Middle Java Engineer",
+    "level": "mid",
+    "domain": "backend",
+    "tech_tags": ["Java", "Spring Boot", "Kafka", "Microservices", "PostgreSQL"],
+    "required_skills": ["Java", "Spring Cloud / Microservices", "Kafka Event-driven", "PostgreSQL / Redis", "Docker & Kubernetes", "CI/CD"],
+    "nice_to_have_skills": ["gRPC", "Distributed Transactions", "AWS"],
+    "description": "Thiết kế giải pháp xử lý sự kiện bất đồng bộ qua Kafka, đảm bảo tính toàn vẹn dữ liệu giao dịch tài chính và tái cấu trúc hệ thống nguyên khối sang microservices."
+  },
+  {
+    "template_id": "backend_golang_junior",
+    "title": "Junior Golang Engineer",
+    "level": "junior",
+    "domain": "backend",
+    "tech_tags": ["Golang", "Microservices", "PostgreSQL", "Docker"],
+    "required_skills": ["Golang", "Goroutines & Channels", "PostgreSQL / MySQL", "gRPC / REST", "Docker", "Git"],
+    "nice_to_have_skills": ["Redis", "Kafka", "Prometheus"],
+    "description": "Xây dựng các backend service siêu nhẹ, hiệu năng cao bằng Golang, phục vụ hàng triệu request mỗi phút với độ trễ thấp."
+  },
+  {
+    "template_id": "backend_golang_mid",
+    "title": "Middle Golang Engineer",
+    "level": "mid",
+    "domain": "backend",
+    "tech_tags": ["Golang", "High Concurrency", "Kafka", "Kubernetes"],
+    "required_skills": ["Golang", "Distributed Systems", "Kafka", "Redis", "PostgreSQL", "Kubernetes", "Profiling & Benchmarking"],
+    "nice_to_have_skills": ["eBPF", "Raft consensus", "Cloud Native"],
+    "description": "Tối ưu hóa các hệ thống phân tán chịu tải siêu lớn, giải quyết tắc nghẽn I/O và lock tài nguyên, xây dựng gateway và các dịch vụ thanh toán lõi."
+  },
+  {
+    "template_id": "frontend_react_fresher",
+    "title": "Fresher Frontend Developer (React)",
+    "level": "fresher",
+    "domain": "frontend",
+    "tech_tags": ["React", "TypeScript", "JavaScript", "HTML/CSS"],
+    "required_skills": ["JavaScript (ES6+)", "TypeScript", "React basics", "HTML5/CSS3", "Responsive Web", "Git"],
+    "nice_to_have_skills": ["Next.js", "Tailwind CSS", "Redux Toolkit"],
+    "description": "Lập trình viên Frontend mới tham gia xây dựng giao diện người dùng đáp ứng (responsive), kết nối API và tối ưu hóa tính tương tác trên trang web."
+  },
+  {
+    "template_id": "frontend_react_junior",
+    "title": "Junior Frontend Developer (React / Next.js)",
+    "level": "junior",
+    "domain": "frontend",
+    "tech_tags": ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    "required_skills": ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "State Management (Zustand/Redux)", "REST API Integration"],
+    "nice_to_have_skills": ["SSR/SSG concepts", "Web Performance Optimization", "Figma to Code"],
+    "description": "Phát triển các trang quản trị (dashboard) và cổng thông tin người dùng với Next.js và Tailwind CSS, tối ưu hóa điểm số Core Web Vitals và SEO."
+  },
+  {
+    "template_id": "frontend_react_mid",
+    "title": "Middle Frontend Engineer (React)",
+    "level": "mid",
+    "domain": "frontend",
+    "tech_tags": ["React", "Next.js", "TypeScript", "Micro-frontends"],
+    "required_skills": ["React", "Next.js", "TypeScript", "Performance Tuning", "Component Library / Design System", "Testing (Jest/Playwright)"],
+    "nice_to_have_skills": ["Micro-frontends", "CI/CD for Web", "Web Accessibility (a11y)"],
+    "description": "Xây dựng hệ thống component dùng chung cho doanh nghiệp, đảm bảo chuẩn bảo mật phía client, ngăn chặn XSS/CSRF và tối ưu hóa bundle size."
+  },
+  {
+    "template_id": "ai_ml_fresher",
+    "title": "Fresher AI / Data Science Engineer",
+    "level": "fresher",
+    "domain": "ai_data",
+    "tech_tags": ["Python", "Machine Learning", "PyTorch", "SQL"],
+    "required_skills": ["Python", "Pandas", "NumPy", "Scikit-Learn", "PyTorch or TensorFlow basics", "SQL", "Git"],
+    "nice_to_have_skills": ["Hugging Face", "LLM Fine-tuning basics", "FastAPI"],
+    "description": "Kỹ sư AI mới tốt nghiệp tham gia tiền xử lý dữ liệu, huấn luyện các mô hình Machine Learning cổ điển và thử nghiệm tích hợp các mô hình ngôn ngữ lớn (LLM)."
+  },
+  {
+    "template_id": "ai_ml_mid",
+    "title": "Middle AI / Generative AI Engineer",
+    "level": "mid",
+    "domain": "ai_data",
+    "tech_tags": ["Python", "LLMs", "RAG", "LangGraph", "PyTorch"],
+    "required_skills": ["Python", "PyTorch", "Hugging Face", "LangChain / LangGraph", "Vector Databases (pgvector/Pinecone)", "RAG Systems", "Model Evaluation"],
+    "nice_to_have_skills": ["vLLM / TensorRT-LLM", "Prompt Engineering", "Fine-tuning LoRA"],
+    "description": "Thiết kế và triển khai các hệ thống RAG enterprise phục vụ hỏi đáp thông minh, fine-tuning mô hình ngôn ngữ mã nguồn mở và tối ưu hóa chi phí token suy luận."
+  },
+  {
+    "template_id": "data_engineer_junior",
+    "title": "Junior Data Engineer",
+    "level": "junior",
+    "domain": "ai_data",
+    "tech_tags": ["Python", "SQL", "Spark", "Airflow", "Data Pipeline"],
+    "required_skills": ["SQL advanced", "Python", "ETL/ELT pipeline design", "PostgreSQL", "Git"],
+    "nice_to_have_skills": ["Apache Spark", "Apache Airflow", "Data Warehousing (BigQuery/Snowflake)"],
+    "description": "Xây dựng và tự động hóa các đường ống trích xuất, biến đổi và nạp dữ liệu (ETL), kiểm soát chất lượng dữ liệu và phục vụ nhu cầu báo cáo phân tích kinh doanh."
+  },
+  {
+    "template_id": "devops_junior",
+    "title": "Junior Cloud / DevOps Engineer",
+    "level": "junior",
+    "domain": "devops",
+    "tech_tags": ["Docker", "Linux", "CI/CD", "AWS", "Terraform"],
+    "required_skills": ["Linux administration", "Docker & Containerization", "CI/CD (GitHub Actions/GitLab)", "Bash Scripting", "Git"],
+    "nice_to_have_skills": ["Kubernetes", "AWS basics", "Terraform", "Nginx"],
+    "description": "Tự động hóa quy trình build và deploy ứng dụng, duy trì các môi trường thử nghiệm (staging/production), cấu hình chứng chỉ SSL và giám sát hạ tầng máy chủ."
+  },
+  {
+    "template_id": "devops_mid",
+    "title": "Middle DevOps / SRE Engineer",
+    "level": "mid",
+    "domain": "devops",
+    "tech_tags": ["Kubernetes", "AWS", "Terraform", "CI/CD", "Prometheus"],
+    "required_skills": ["Kubernetes (EKS/GKE)", "Infrastructure as Code (Terraform)", "AWS or GCP", "Monitoring (Prometheus/Grafana)", "CI/CD Pipelines"],
+    "nice_to_have_skills": ["Helm", "ArgoCD (GitOps)", "Security & Compliance"],
+    "description": "Quản trị cụm Kubernetes sản xuất, thiết lập quy trình GitOps với ArgoCD, tối ưu chi phí hạ tầng Cloud và xây dựng cơ chế tự động mở rộng (Autoscaling)."
+  },
+  {
+    "template_id": "qa_automation_junior",
+    "title": "Junior QA Automation Engineer",
+    "level": "junior",
+    "domain": "qa",
+    "tech_tags": ["Selenium", "Appium", "Python", "TestNG", "CI/CD"],
+    "required_skills": ["Manual Testing fundamentals", "Selenium WebDriver or Playwright", "API Testing (Postman/RestAssured)", "Python or Java basics", "Git"],
+    "nice_to_have_skills": ["Appium (Mobile Automation)", "CI/CD integration", "Performance Testing (JMeter)"],
+    "description": "Viết và thực thi các bộ kiểm thử tự động cho Web và Mobile API, phát hiện sớm các lỗi hồi quy trong quá trình phát triển và báo cáo chất lượng phát hành."
+  },
+  {
+    "template_id": "fullstack_mid",
+    "title": "Middle Fullstack Engineer (React + Node/Python)",
+    "level": "mid",
+    "domain": "fullstack",
+    "tech_tags": ["React", "TypeScript", "Node.js", "Python", "PostgreSQL"],
+    "required_skills": ["React", "TypeScript", "Node.js / Express or FastAPI", "PostgreSQL", "Docker", "RESTful APIs", "Clean Code"],
+    "nice_to_have_skills": ["Tailwind CSS", "Redis", "Cloud Deployment"],
+    "description": "Lập trình viên Fullstack làm chủ toàn bộ vòng đời tính năng từ thiết kế cơ sở dữ liệu, viết backend API đến hoàn thiện giao diện người dùng mượt mà."
+  }
+]

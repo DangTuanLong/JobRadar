@@ -1,0 +1,45 @@
+# Environment & Secrets
+.env
+.env.local
+*.env
+local.properties
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Testing & Linting
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Android / Mobile
+mobile/.gradle/
+mobile/build/
+mobile/local.properties
+mobile/app/build/
+.gradle/
+build/
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# AI Agent Governance, Internal Docs & Skills (Local only)
+/AGENTS.md
+/TASKS.md
+/docs/
+/.agents/
+/.agent/
+/.tmp-npm-cache/
+

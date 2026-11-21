@@ -1,0 +1,322 @@
+[
+  {
+    "name": "MoMo",
+    "website": "https://momo.vn",
+    "industry": "Fintech",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Kotlin", "Android", "Swift", "iOS", "Java", "Spring Boot", "Golang", "Kafka", "PostgreSQL", "Redis", "Kubernetes"],
+    "description": "Siêu ứng dụng tài chính số hàng đầu Việt Nam cung cấp dịch vụ thanh toán, chuyển tiền, bảo hiểm và tài chính vi mô.",
+    "culture_summary": "Tập trung vào trải nghiệm người dùng, tốc độ đổi mới nhanh, văn hóa dữ liệu (data-driven) và đề cao tinh thần làm chủ (ownership)."
+  },
+  {
+    "name": "VNG Corporation",
+    "website": "https://vng.com.vn",
+    "industry": "Game & Platform",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["C++", "Golang", "Python", "Java", "Kotlin", "Android", "Swift", "React", "Docker", "Kubernetes", "Kafka"],
+    "description": "Kỳ lân công nghệ đầu tiên của Việt Nam với hệ sinh thái sản phẩm Zalo, Zing MP3, phát hành game quốc tế và điện toán đám mây VNG Cloud.",
+    "culture_summary": "Môi trường năng động, cởi mở, khuyến khích sáng tạo cá nhân, cơ sở vật chất hiện đại chuẩn quốc tế và nhiều cơ hội thăng tiến."
+  },
+  {
+    "name": "VNPay",
+    "website": "https://vnpay.vn",
+    "industry": "Fintech",
+    "size_range": "1000-5000",
+    "location": "Hà Nội",
+    "tech_stack": ["Java", "Spring Boot", "Kotlin", "Android", "Swift", "iOS", "Oracle", "Redis", "Microservices", "Docker"],
+    "description": "Công ty giải pháp thanh toán điện tử hàng đầu cung cấp cổng thanh toán VNPay-QR và nền tảng Mobile Banking cho hơn 40 ngân hàng.",
+    "culture_summary": "Văn hóa doanh nghiệp ổn định, chú trọng kỷ luật công nghệ, an toàn thông tin khắt khe và chế độ đãi ngộ cạnh tranh."
+  },
+  {
+    "name": "Tiki",
+    "website": "https://tiki.vn",
+    "industry": "E-commerce",
+    "size_range": "500-1000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Golang", "Python", "Java", "Kotlin", "Android", "Swift", "React", "Kafka", "Elasticsearch", "Kubernetes"],
+    "description": "Sàn thương mại điện tử uy tín tại Việt Nam với hệ thống logistics TikiNOW và nền tảng công nghệ phân tán phục vụ hàng triệu người dùng.",
+    "culture_summary": "Kỹ thuật chuyên sâu, đề cao văn hóa engineering xuất sắc, khuyến khích tối ưu hiệu năng và chia sẻ kiến thức nội bộ."
+  },
+  {
+    "name": "Shopee Vietnam",
+    "website": "https://shopee.vn",
+    "industry": "E-commerce",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Golang", "Python", "React", "Kotlin", "Android", "Swift", "iOS", "Redis", "Kafka", "MySQL", "Kubernetes"],
+    "description": "Nền tảng thương mại điện tử lớn nhất khu vực Đông Nam Á với lượng giao dịch và người dùng hoạt động hàng ngày khổng lồ.",
+    "culture_summary": "Môi trường quốc tế, cường độ công việc cao, định hướng kết quả rõ rệt và giải quyết các bài toán hạ tầng quy mô siêu lớn."
+  },
+  {
+    "name": "Viettel Solutions",
+    "website": "https://solutions.viettel.vn",
+    "industry": "Enterprise & Telecom",
+    "size_range": "5000+",
+    "location": "Hà Nội",
+    "tech_stack": ["Java", "Python", "Golang", "C/C++", "React", "Angular", "PostgreSQL", "Docker", "Kubernetes", "OpenStack"],
+    "description": "Tổng công ty giải pháp doanh nghiệp trực thuộc Tập đoàn Viettel, tiên phong chuyển đổi số cho chính phủ, y tế, giáo dục và doanh nghiệp.",
+    "culture_summary": "Kỷ luật quân đội kết hợp tư duy công nghệ hiện đại, tinh thần phụng sự xã hội và khả năng làm chủ các dự án hạ tầng quốc gia."
+  },
+  {
+    "name": "FPT Software",
+    "website": "https://fptsoftware.com",
+    "industry": "IT Outsourcing & Global Services",
+    "size_range": "5000+",
+    "location": "Hà Nội, TP. Hồ Chí Minh, Đà Nẵng",
+    "tech_stack": ["Java", "Spring Boot", ".NET", "Python", "React", "Angular", "Kotlin", "Android", "Swift", "AWS", "Azure"],
+    "description": "Công ty xuất khẩu phần mềm lớn nhất Việt Nam với hơn 30.000 kỹ sư phục vụ hàng trăm khách hàng Fortune 500 trên toàn cầu.",
+    "culture_summary": "Môi trường quốc tế đa văn hóa, quy trình phát triển chuyên nghiệp theo chuẩn CMMI/Agile, đào tạo liên tục và cơ hội onsite nước ngoài."
+  },
+  {
+    "name": "One Mount Group",
+    "website": "https://onemount.com",
+    "industry": "Retail Tech & Fintech",
+    "size_range": "1000-5000",
+    "location": "Hà Nội",
+    "tech_stack": ["Golang", "Java", "Python", "Kotlin", "Android", "Swift", "React Native", "PostgreSQL", "GCP", "Kubernetes"],
+    "description": "Hệ sinh thái công nghệ kết hợp VinShop, VinID và OneHousing xây dựng mạng lưới phân phối bán lẻ và dịch vụ số quy mô lớn.",
+    "culture_summary": "Văn hóa khởi nghiệp trong tập đoàn lớn, tốc độ mở rộng nhanh, tập trung xây dựng sản phẩm chất lượng cao với đối tác chiến lược Google Cloud."
+  },
+  {
+    "name": "ZaloPay",
+    "website": "https://zalopay.vn",
+    "industry": "Fintech",
+    "size_range": "500-1000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Golang", "Java", "Kotlin", "Android", "Swift", "iOS", "React Native", "Kafka", "MySQL", "Redis", "Docker"],
+    "description": "Ví điện tử hàng đầu tích hợp sâu vào ứng dụng Zalo, cung cấp giải pháp thanh toán thông minh cho hàng chục triệu người tiêu dùng và đối tác.",
+    "culture_summary": "Tập trung giải quyết bài toán tải cao (high concurrency), bảo mật tài chính tối đa và tinh thần đồng đội hợp tác chặt chẽ."
+  },
+  {
+    "name": "Amanotes",
+    "website": "https://amanotes.com",
+    "industry": "Mobile Game",
+    "size_range": "200-500",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Unity", "C#", "Kotlin", "Android", "Swift", "iOS", "Python", "AWS", "BigQuery", "Data Analytics"],
+    "description": "Nhà phát hành game âm nhạc di động số 1 thế giới với hơn 3 tỷ lượt tải về toàn cầu qua các tựa game nổi tiếng như Magic Tiles 3, Tiles Hop.",
+    "culture_summary": "Đam mê âm nhạc và công nghệ, văn hóa agile tự do, đề cao sáng tạo nội dung giải trí và tư duy hướng tới người dùng toàn cầu."
+  },
+  {
+    "name": "Axon Vietnam",
+    "website": "https://axon.com",
+    "industry": "AI & Security",
+    "size_range": "500-1000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Golang", "Java", "Python", "Kotlin", "Android", "Swift", "React", "Azure", "Docker", "Computer Vision"],
+    "description": "Trung tâm R&D tại Việt Nam của Axon Enterprise (Mỹ), phát triển phần mềm và thiết bị an ninh bảo vệ tính mạng công cộng.",
+    "culture_summary": "Môi trường văn hóa chuẩn công nghệ Thung lũng Silicon, lương thưởng và phúc lợi hàng đầu, cam kết sứ mệnh xã hội minh bạch và nhân văn."
+  },
+  {
+    "name": "NAB Innovation Centre Vietnam",
+    "website": "https://nab.com.au",
+    "industry": "Banking & Cloud",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh, Hà Nội",
+    "tech_stack": ["Java", "Spring Boot", "Kotlin", "Android", "Swift", "AWS", "Microservices", "Terraform", "Kafka", "React"],
+    "description": "Trung tâm công nghệ chiến lược của National Australia Bank tại Việt Nam, xây dựng ngân hàng số thế hệ mới trên nền tảng đám mây AWS.",
+    "culture_summary": "Chế độ đãi ngộ vượt trội, văn hóa làm việc linh hoạt (hybrid), tôn trọng cân bằng cuộc sống và đầu tư mạnh vào chứng chỉ kỹ thuật quốc tế."
+  },
+  {
+    "name": "KMS Technology",
+    "website": "https://kms-technology.com",
+    "industry": "Software Services & HealthTech",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh, Đà Nẵng",
+    "tech_stack": ["Java", "Python", ".NET", "React", "Angular", "Kotlin", "Android", "AWS", "Azure", "QA Automation"],
+    "description": "Công ty dịch vụ kỹ thuật phần mềm và phát triển sản phẩm với hơn 15 năm kinh nghiệm, phục vụ thị trường Bắc Mỹ trong lĩnh vực y tế và tài chính.",
+    "culture_summary": "Văn hóa gia đình ấm cúng, chính sách phát triển nhân tài bài bản, liên tục lọt top nơi làm việc công nghệ tốt nhất Việt Nam."
+  },
+  {
+    "name": "VinAI",
+    "website": "https://vinai.io",
+    "industry": "Artificial Intelligence",
+    "size_range": "200-500",
+    "location": "Hà Nội",
+    "tech_stack": ["Python", "PyTorch", "C++", "CUDA", "TensorRT", "Computer Vision", "NLP", "Autonomous Driving", "Edge AI"],
+    "description": "Viện nghiên cứu và ứng dụng trí tuệ nhân tạo hàng đầu khu vực, phát triển các giải pháp xe tự hành thông minh và mô hình ngôn ngữ lớn.",
+    "culture_summary": "Định hướng nghiên cứu đỉnh cao (top-tier research), quy tụ các tiến sĩ và chuyên gia AI quốc tế, môi trường học thuật gắn liền ứng dụng thực tiễn."
+  },
+  {
+    "name": "Got It AI",
+    "website": "https://got-it.ai",
+    "industry": "Generative AI & Conversational",
+    "size_range": "50-200",
+    "location": "Hà Nội, Remote",
+    "tech_stack": ["Python", "PyTorch", "FastAPI", "React", "TypeScript", "LLMs", "RAG", "AWS", "PostgreSQL"],
+    "description": "Startup AI gốc Việt tại Thung lũng Silicon tiên phong trong các giải pháp Autonomous Conversational AI và RAG Enterprise không ảo giác.",
+    "culture_summary": "Văn hóa sản phẩm tinh gọn (lean startup), tốc độ thử nghiệm cực nhanh, tôn trọng ý kiến phản biện và chú trọng tư duy thuật toán cốt lõi."
+  },
+  {
+    "name": "Sendo",
+    "website": "https://sendo.vn",
+    "industry": "E-commerce",
+    "size_range": "500-1000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Golang", "Python", "Java", "React", "Kotlin", "Android", "Swift", "Kafka", "Redis", "MySQL"],
+    "description": "Sàn thương mại điện tử thuần Việt thuộc Tập đoàn FPT, tập trung vào thị trường tiêu dùng số và chuỗi cung ứng nông sản tươi Sendo Farm.",
+    "culture_summary": "Thân thiện, thực tế, đề cao tinh thần kiên trì vượt khó và cam kết sâu sắc với nông sản và người tiêu dùng nội địa."
+  },
+  {
+    "name": "Be Group",
+    "website": "https://be.com.vn",
+    "industry": "Mobility & Consumer Tech",
+    "size_range": "500-1000",
+    "location": "TP. Hồ Chí Minh, Hà Nội",
+    "tech_stack": ["Golang", "Kotlin", "Android", "Swift", "iOS", "Python", "Kafka", "PostgreSQL", "Redis", "Kubernetes"],
+    "description": "Nền tảng tiêu dùng đa dịch vụ thuần Việt cung cấp gọi xe công nghệ, giao hàng, giao đồ ăn và ngân hàng số Cake by VPBank.",
+    "culture_summary": "Môi trường công bằng, tốc độ ra quyết định nhanh, coi trọng năng lực giải quyết vấn đề và gắn kết chặt chẽ với đối tác tài xế."
+  },
+  {
+    "name": "Techcombank",
+    "website": "https://techcombank.com",
+    "industry": "Digital Banking",
+    "size_range": "5000+",
+    "location": "Hà Nội, TP. Hồ Chí Minh",
+    "tech_stack": ["Java", "Spring Boot", "Kotlin", "Android", "Swift", "AWS", "Microservices", "Kafka", "Docker", "DevOps"],
+    "description": "Ngân hàng số hàng đầu chuyển dịch toàn diện sang nền tảng Cloud, đầu tư hàng trăm triệu USD xây dựng trải nghiệm tài chính vượt trội.",
+    "culture_summary": "Đổi mới sáng tạo không ngừng, tiêu chuẩn bảo mật ngân hàng cao cấp, quy tụ nhiều chuyên gia công nghệ nước ngoài."
+  },
+  {
+    "name": "MBBank Digital",
+    "website": "https://mbbank.com.vn",
+    "industry": "Digital Banking & Fintech",
+    "size_range": "5000+",
+    "location": "Hà Nội",
+    "tech_stack": ["Java", "Spring Boot", "Kotlin", "Android", "Swift", "React Native", "Oracle", "Kafka", "Kubernetes"],
+    "description": "Khối ngân hàng số MBBank dẫn đầu số lượng giao dịch số tại Việt Nam với ứng dụng App MBBank và các mini-app tài chính thông minh.",
+    "culture_summary": "Chuyển đổi số quyết liệt, cơ chế thử nghiệm sản phẩm linh hoạt như một fintech độc lập, phúc lợi ngân hàng bền vững."
+  },
+  {
+    "name": "KiotViet",
+    "website": "https://kiotviet.vn",
+    "industry": "Retail SaaS",
+    "size_range": "1000-5000",
+    "location": "Hà Nội, TP. Hồ Chí Minh",
+    "tech_stack": ["C#", ".NET Core", "Java", "Kotlin", "Android", "Swift", "Vue.js", "React", "PostgreSQL", "AWS"],
+    "description": "Phần mềm quản lý bán hàng phổ biến nhất Việt Nam phục vụ hơn 300.000 cửa hàng vừa và nhỏ trong lĩnh vực bán lẻ và F&B.",
+    "culture_summary": "Tập trung giải quyết nỗi đau thực tế của tiểu thương, văn hóa thực thi kỷ luật và định hướng mở rộng dịch vụ tài chính nhúng."
+  },
+  {
+    "name": "Base.vn",
+    "website": "https://base.vn",
+    "industry": "B2B SaaS Enterprise",
+    "size_range": "500-1000",
+    "location": "Hà Nội, TP. Hồ Chí Minh",
+    "tech_stack": ["Python", "Django", "FastAPI", "React", "TypeScript", "Kotlin", "Android", "Swift", "PostgreSQL", "Redis"],
+    "description": "Nền tảng quản trị doanh nghiệp toàn diện phục vụ hơn 8.000 khách hàng doanh nghiệp hàng đầu trong quản trị nhân sự, quy trình và tài chính.",
+    "culture_summary": "Đề cao tư duy sản phẩm sâu sắc (product mindset), mã nguồn tinh gọn, tính thẩm mỹ cao trong thiết kế giao diện và tinh thần khởi nghiệp mãnh liệt."
+  },
+  {
+    "name": "Sky Mavis",
+    "website": "https://skymavis.com",
+    "industry": "Web3 & Game",
+    "size_range": "200-500",
+    "location": "TP. Hồ Chí Minh, Remote",
+    "tech_stack": ["Golang", "Rust", "Solidity", "Unity", "C#", "Kotlin", "Android", "Swift", "React", "AWS"],
+    "description": "Công ty công nghệ đứng sau hiện tượng game Web3 toàn cầu Axie Infinity và mạng blockchain thế hệ mới Ronin Network.",
+    "culture_summary": "Tiên phong công nghệ phi tập trung, tư duy toàn cầu, tinh thần sẵn sàng dấn thân vào những lĩnh vực công nghệ mới mẻ chưa ai làm."
+  },
+  {
+    "name": "Garena Vietnam",
+    "website": "https://garena.vn",
+    "industry": "Gaming Platform",
+    "size_range": "500-1000",
+    "location": "TP. Hồ Chí Minh, Hà Nội",
+    "tech_stack": ["Golang", "Python", "C++", "Kotlin", "Android", "Swift", "MySQL", "Redis", "Kafka", "Docker"],
+    "description": "Công ty phát hành và phát triển game thể thao điện tử hàng đầu Đông Nam Á, đứng sau Liên Quân Mobile và Free Fire.",
+    "culture_summary": "Đam mê game mãnh liệt, năng động, hướng tới trải nghiệm cộng đồng game thủ và xây dựng các sự kiện quy mô lớn."
+  },
+  {
+    "name": "NashTech Vietnam",
+    "website": "https://nashtechglobal.com",
+    "industry": "IT Outsourcing & Global Services",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh, Đà Nẵng",
+    "tech_stack": [".NET Core", "Java", "Python", "React", "Angular", "Kotlin", "Android", "Azure", "AWS", "QA Automation"],
+    "description": "Thành viên tập đoàn Harvey Nash (Anh Quốc), chuyên cung cấp giải pháp công nghệ thông tin và chuyển đổi số cho thị trường châu Âu và Úc.",
+    "culture_summary": "Tiêu chuẩn chuyên nghiệp chuẩn Anh Quốc, cân bằng công việc - cuộc sống (work-life balance), nhiều hoạt động cộng đồng và đào tạo liên tục."
+  },
+  {
+    "name": "Enouvo IT Solutions",
+    "website": "https://enouvo.com",
+    "industry": "Digital Transformation & Mobile",
+    "size_range": "50-200",
+    "location": "Đà Nẵng",
+    "tech_stack": ["Kotlin", "Android", "Swift", "iOS", "Flutter", "React", "Node.js", "Python", "AWS", "Figma"],
+    "description": "Công ty công nghệ sáng tạo tại Đà Nẵng chuyên xây dựng giải pháp Mobile App, Web App và hệ sinh thái kỹ thuật số cho khách hàng quốc tế.",
+    "culture_summary": "Văn hóa mở và ấm cúng miền Trung, tinh thần đổi mới liên tục, môi trường làm việc sáng tạo kết hợp không gian co-working hiện đại."
+  },
+  {
+    "name": "RikkeiSoft",
+    "website": "https://rikkeisoft.com",
+    "industry": "IT Outsourcing & AI",
+    "size_range": "1000-5000",
+    "location": "Hà Nội, TP. Hồ Chí Minh, Đà Nẵng",
+    "tech_stack": ["Java", "Spring Boot", "PHP", "Python", "Kotlin", "Android", "React", "Vue.js", "AWS", "Docker"],
+    "description": "Doanh nghiệp CNTT Việt Nam hàng đầu phục vụ thị trường Nhật Bản và quốc tế với dịch vụ phát triển phần mềm và trung tâm nghiên cứu AI.",
+    "culture_summary": "Phong cách làm việc nghiêm túc, tôn trọng đối tác, tinh thần trách nhiệm cao và chế độ đãi ngộ khích lệ gắn bó lâu dài."
+  },
+  {
+    "name": "SmartOSC",
+    "website": "https://smartosc.com",
+    "industry": "E-commerce Solutions",
+    "size_range": "500-1000",
+    "location": "Hà Nội, TP. Hồ Chí Minh",
+    "tech_stack": ["PHP", "Magento", "Node.js", "React", "Vue.js", "Flutter", "Kotlin", "Android", "AWS", "Shopify"],
+    "description": "Đối tác công nghệ hàng đầu thế giới trong triển khai giải pháp thương mại điện tử đa kênh và chuyển đổi số bán lẻ toàn cầu.",
+    "culture_summary": "Trẻ trung, nhiệt huyết, đề cao tính đồng đội, khuyến khích sáng kiến cá nhân và tinh thần học hỏi công nghệ thương mại mới."
+  },
+  {
+    "name": "Trusting Social",
+    "website": "https://trustingsocial.com",
+    "industry": "Fintech & AI",
+    "size_range": "200-500",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Python", "Golang", "Scala", "Spark", "Kafka", "Kotlin", "Android", "PostgreSQL", "AWS", "Machine Learning"],
+    "description": "Fintech AI tiên phong phân tích dữ liệu lớn và chấm điểm tín dụng tài chính cho hàng trăm triệu người dùng chưa có tài khoản ngân hàng.",
+    "culture_summary": "Sứ mệnh tài chính toàn diện, văn hóa nghiên cứu thuật toán sâu, tôn trọng dữ liệu khách quan và tư duy giải quyết vấn đề xã hội."
+  },
+  {
+    "name": "Cốc Cốc",
+    "website": "https://coccoc.com",
+    "industry": "Search Engine & AdTech",
+    "size_range": "200-500",
+    "location": "Hà Nội, TP. Hồ Chí Minh",
+    "tech_stack": ["C++", "Python", "Golang", "Kotlin", "Android", "Swift", "iOS", "ClickHouse", "Hadoop", "AdTech"],
+    "description": "Trình duyệt và công cụ tìm kiếm nội địa lớn nhất Việt Nam với hơn 29 triệu người dùng hoạt động cùng nền tảng quảng cáo số tối ưu.",
+    "culture_summary": "Đậm đà bản sắc Việt, giải quyết bài toán xử lý dữ liệu lớn (big data) và thuật toán tìm kiếm phức tạp với quy mô người dùng thực tế."
+  },
+  {
+    "name": "ELSA Speak",
+    "website": "https://elsaspeak.com",
+    "industry": "EdTech & AI",
+    "size_range": "200-500",
+    "location": "TP. Hồ Chí Minh, Remote",
+    "tech_stack": ["Python", "PyTorch", "Golang", "Kotlin", "Android", "Swift", "iOS", "FastAPI", "AWS", "Speech Recognition"],
+    "description": "Ứng dụng học phát âm tiếng Anh chuẩn bản xứ sử dụng công nghệ nhận diện giọng nói AI độc quyền lọt top ứng dụng giáo dục toàn cầu.",
+    "culture_summary": "Văn hóa sản phẩm quốc tế, tinh thần tự giác cao, đam mê ứng dụng AI để tạo ra giá trị giáo dục tích cực cho hàng chục triệu người học."
+  },
+  {
+    "name": "NFQ Asia",
+    "website": "https://nfq.asia",
+    "industry": "Venture Studio & Product Engineering",
+    "size_range": "200-500",
+    "location": "TP. Hồ Chí Minh, Đà Nẵng",
+    "tech_stack": ["PHP", "Symfony", "Node.js", "React", "Kotlin", "Android", "Swift", "AWS", "Docker", "Microservices"],
+    "description": "Venture Studio và trung tâm kỹ thuật phần mềm xây dựng các startup kỳ lân công nghệ tại châu Âu và châu Á.",
+    "culture_summary": "Không phân cấp rườm rà (flat hierarchy), minh bạch tối đa, tinh thần tự chủ kỹ thuật và tạo điều kiện tối đa cho kỹ sư phát triển."
+  },
+  {
+    "name": "Sea Limited Vietnam",
+    "website": "https://seagroup.com",
+    "industry": "Digital Platform",
+    "size_range": "1000-5000",
+    "location": "TP. Hồ Chí Minh",
+    "tech_stack": ["Golang", "Python", "React", "Kotlin", "Android", "Swift", "MySQL", "Redis", "Kafka", "Kubernetes"],
+    "description": "Tập đoàn công nghệ Internet hàng đầu khu vực, công ty mẹ của Shopee, Garena và SeaMoney kết nối hệ sinh thái giải trí và thương mại số.",
+    "culture_summary": "Đề cao tinh thần phục vụ, cống hiến, khả năng thích ứng linh hoạt và cơ hội thử thách tại các thị trường phát triển nhanh nhất thế giới."
+  }
+]

@@ -1,0 +1,1 @@
+"""JobRadar Backend Application Package."""

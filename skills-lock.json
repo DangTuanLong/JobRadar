@@ -1,0 +1,77 @@
+{
+  "version": 2,
+  "skills": {
+    "compose-state-and-effects": {
+      "source": "chrisbanes/skills",
+      "commit": "633d28ded5e59b8e8c9efc65ed69e73fcd8a2bae",
+      "sourceType": "github",
+      "skillPath": "skills/compose-state-and-effects/SKILL.md",
+      "computedHash": "bb1a176cd64f7e159555766ce30143e578bdb2b86f6fbba11b71efcb2222ef82",
+      "installMode": "copy"
+    },
+    "fastapi": {
+      "source": "fastapi/fastapi",
+      "commit": "05e6df7e906c3decba377c37548019973f40bf15",
+      "sourceType": "github",
+      "skillPath": "fastapi/.agents/skills/fastapi/SKILL.md",
+      "computedHash": "141f0146e357365d518029ccc74e5b0a256f9a352573c65856780995d1bea52c",
+      "installMode": "copy"
+    },
+    "gemini-api-dev": {
+      "source": "google-gemini/gemini-skills",
+      "commit": "c4d0c62c1240e08a90546186bf320600ab6a039a",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-api-dev/SKILL.md",
+      "computedHash": "b3823bd7210e46d4528ca85ebc03326842a6df47ced9a856a1729639f9756c12",
+      "installMode": "copy"
+    },
+    "jetpack-compose-performance": {
+      "source": "android/skills",
+      "commit": "c72942584fff970dac86ced78b367fce0c441e52",
+      "sourceType": "github",
+      "skillPath": "jetpack-compose/jetpack-compose-performance/SKILL.md",
+      "computedHash": "a66ab42a03f6b559bfd1c8325e242ff65d276c173a7ef8e889837c311d179d49",
+      "installMode": "copy"
+    },
+    "kotlin-concurrency-and-flow": {
+      "source": "chrisbanes/skills",
+      "commit": "633d28ded5e59b8e8c9efc65ed69e73fcd8a2bae",
+      "sourceType": "github",
+      "skillPath": "skills/kotlin-concurrency-and-flow/SKILL.md",
+      "computedHash": "fc593d0bcfb35d873f5db70ca83870d17c3a8e6a7e6a417083470eb3a10973f8",
+      "installMode": "copy"
+    },
+    "kotlin-control-flow": {
+      "source": "chrisbanes/skills",
+      "commit": "633d28ded5e59b8e8c9efc65ed69e73fcd8a2bae",
+      "sourceType": "github",
+      "skillPath": "skills/kotlin-control-flow/SKILL.md",
+      "computedHash": "c6d3156fd4cc73504d99108ba19c6d211cde8fbb4ebf6ccefa914e10157d0042",
+      "installMode": "copy"
+    },
+    "langchain-fundamentals": {
+      "source": "langchain-ai/skills-benchmarks",
+      "commit": "9195f8c296f7076152cf5c698d6abd4f84853eb9",
+      "sourceType": "github",
+      "skillPath": "skills/main/langchain-fundamentals/SKILL.md",
+      "computedHash": "6b90211aa24e4af4b7b88ab99ed7fdcbe98eb4a010c2942a614bd98165801f77",
+      "installMode": "copy"
+    },
+    "langgraph-fundamentals": {
+      "source": "langchain-ai/skills-benchmarks",
+      "commit": "9195f8c296f7076152cf5c698d6abd4f84853eb9",
+      "sourceType": "github",
+      "skillPath": "skills/main/langgraph-fundamentals/SKILL.md",
+      "computedHash": "8617a8a43eecf6503884dbc6fe4dd429c8f3169708524d5b33518771303dbbec",
+      "installMode": "copy"
+    },
+    "supabase-postgres-best-practices": {
+      "source": "supabase/agent-skills",
+      "commit": "c9be0e931b7930f7d02126d04774d904c381e7d7",
+      "sourceType": "github",
+      "skillPath": "skills/supabase-postgres-best-practices/SKILL.md",
+      "computedHash": "3eb972c2d7c818e544e35cc33ea8d7147d4d78ae08142ef40037b0fbac7a2505",
+      "installMode": "copy"
+    }
+  }
+}
