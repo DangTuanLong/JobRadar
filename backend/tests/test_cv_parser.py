@@ -8,6 +8,7 @@ from unittest.mock import AsyncMock
 
 import pymupdf
 import pytest
+from google.genai import types
 
 from app.core.constants import MAX_CV_FILE_SIZE_BYTES, MAX_PDF_PAGES, MIME_JPEG, MIME_PDF, MIME_PNG
 from app.core.exceptions import AppException
@@ -144,6 +145,9 @@ async def test_parse_cv_extracts_hidden_github_link_and_deduplicates_skills() ->
 
     mock_client._generate_mock.assert_awaited_once()
     call_kwargs = mock_client._generate_mock.call_args.kwargs
+    assert call_kwargs["model"] == "gemini-4-hydrogen"
+    assert call_kwargs["config"].thinking_config is not None
+    assert call_kwargs["config"].thinking_config.thinking_level == types.ThinkingLevel.LOW
     prompt_text = call_kwargs["contents"][-1]
     assert "https://github.com/example-dev" in prompt_text
 

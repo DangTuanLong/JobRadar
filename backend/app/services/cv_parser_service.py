@@ -45,6 +45,7 @@ _MAGIC_BYTES_BY_MIME: dict[str, bytes] = {
     MIME_PNG: PNG_MAGIC_BYTES,
     MIME_JPEG: JPEG_MAGIC_BYTES,
 }
+_ALLOWED_THINKING_LEVELS = frozenset({"low", "medium", "high", "xhigh"})
 
 
 def validate_cv_file(
@@ -239,6 +240,28 @@ def _postprocess_extracted_profile(
     )
 
 
+def _build_extraction_config() -> types.GenerateContentConfig:
+    """Build Gemini structured-output generation config with optional thinking level."""
+    thinking_config: types.ThinkingConfig | None = None
+    level = settings.GEMINI_EXTRACTION_THINKING_LEVEL.strip().lower()
+    model_name = settings.GEMINI_MODEL_EXTRACTION.strip().lower()
+    if level and model_name.startswith(("gemini-3", "gemini-4")):
+        if level not in _ALLOWED_THINKING_LEVELS:
+            raise AppException(
+                status_code=500,
+                code="AI_CONFIG_ERROR",
+                message=f"Unsupported Gemini thinking level: {level}",
+            )
+        thinking_config = types.ThinkingConfig(thinking_level=level)
+
+    return types.GenerateContentConfig(
+        system_instruction=CV_EXTRACTION_SYSTEM_INSTRUCTION,
+        response_mime_type="application/json",
+        response_schema=CandidateProfileExtracted,
+        thinking_config=thinking_config,
+    )
+
+
 def _parse_gemini_profile_response(response: object) -> CandidateProfileExtracted:
     """Parse Gemini response.parsed or JSON text into CandidateProfileExtracted."""
     parsed = getattr(response, "parsed", None)
@@ -295,16 +318,13 @@ async def parse_cv_document(
     )
 
     gemini_client = client if client is not None else get_gemini_client()
+    extraction_config = _build_extraction_config()
     response = await call_gemini_with_retry(
         "cv_extraction",
         lambda: gemini_client.aio.models.generate_content(
             model=settings.GEMINI_MODEL_EXTRACTION,
             contents=parts,
-            config=types.GenerateContentConfig(
-                system_instruction=CV_EXTRACTION_SYSTEM_INSTRUCTION,
-                response_mime_type="application/json",
-                response_schema=CandidateProfileExtracted,
-            ),
+            config=extraction_config,
         ),
     )
 
