@@ -1,0 +1,4 @@
+# Sao chép các biến cấu hình dưới đây vào tệp mobile/local.properties (giữ nguyên dòng sdk.dir hiện có)
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_your_key_here
+API_BASE_URL=http://10.0.2.2:8000/api/v1/

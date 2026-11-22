@@ -1,3 +1,57 @@
 <resources>
     <string name="app_name">JobRadar</string>
+
+    <!-- Auth screens -->
+    <string name="auth_login_title">Đăng nhập</string>
+    <string name="auth_login_subtitle">Khám phá cơ hội việc làm IT phù hợp nhất với hồ sơ của bạn</string>
+    <string name="auth_register_title">Tạo tài khoản</string>
+    <string name="auth_register_subtitle">Đăng ký để bắt đầu quét CV và nhận gợi ý công ty</string>
+    <string name="auth_email_label">Email</string>
+    <string name="auth_email_placeholder">you@example.com</string>
+    <string name="auth_password_label">Mật khẩu</string>
+    <string name="auth_confirm_password_label">Xác nhận mật khẩu</string>
+    <string name="auth_login_button">Đăng nhập</string>
+    <string name="auth_register_button">Đăng ký</string>
+    <string name="auth_go_to_register">Chưa có tài khoản? Đăng ký</string>
+    <string name="auth_go_to_login">Đã có tài khoản? Đăng nhập</string>
+    <string name="auth_show_password">Hiện mật khẩu</string>
+    <string name="auth_hide_password">Ẩn mật khẩu</string>
+    <string name="auth_back_cd">Quay lại</string>
+
+    <!-- Auth validation -->
+    <string name="auth_error_email_empty">Vui lòng nhập email</string>
+    <string name="auth_error_email_invalid">Email không đúng định dạng</string>
+    <string name="auth_error_password_short">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="auth_error_password_mismatch">Mật khẩu xác nhận không khớp</string>
+
+    <!-- Auth & network errors -->
+    <string name="auth_error_invalid_credentials">Email hoặc mật khẩu không chính xác</string>
+    <string name="auth_error_email_not_confirmed">Tài khoản chưa xác thực email. Vui lòng kiểm tra hộp thư</string>
+    <string name="auth_error_user_exists">Email này đã được đăng ký</string>
+    <string name="auth_error_weak_password">Mật khẩu quá yếu. Vui lòng chọn mật khẩu mạnh hơn</string>
+    <string name="auth_error_rate_limited">Thao tác quá nhanh. Vui lòng thử lại sau ít phút</string>
+    <string name="auth_error_network">Không thể kết nối máy chủ. Kiểm tra mạng và thử lại</string>
+    <string name="auth_error_config_missing">Thiếu cấu hình Supabase trong local.properties</string>
+    <string name="auth_error_unknown">Đã xảy ra lỗi không xác định. Vui lòng thử lại</string>
+    <string name="auth_register_confirm_email">Đăng ký thành công! Vui lòng kiểm tra email để xác thực trước khi đăng nhập</string>
+
+    <!-- Splash & main shell -->
+    <string name="splash_tagline">Trợ lý tìm việc IT thông minh</string>
+    <string name="splash_loading">Đang kiểm tra phiên đăng nhập…</string>
+    <string name="tab_scan_cv">Quét CV</string>
+    <string name="tab_suggestions">Gợi ý</string>
+    <string name="tab_profile">Hồ sơ</string>
+    <string name="placeholder_coming_soon">Sắp ra mắt ở bản tiếp theo</string>
+    <string name="placeholder_scan_cv_desc">Tải lên CV (PDF/Ảnh) và theo dõi quá trình AI phân tích năng lực theo thời gian thực.</string>
+    <string name="placeholder_suggestions_desc">Danh sách công ty phù hợp kèm điểm số, lỗ hổng kỹ năng và bằng chứng xác thực.</string>
+    <string name="profile_account_section">Tài khoản đang đăng nhập</string>
+    <string name="profile_email_unknown">Không có thông tin email</string>
+    <string name="profile_backend_section">Trạng thái máy chủ Backend</string>
+    <string name="backend_status_checking">Đang kiểm tra kết nối máy chủ…</string>
+    <string name="backend_status_online">Đã kết nối (%1$s)</string>
+    <string name="backend_status_online_default">Đã kết nối</string>
+    <string name="backend_status_offline">Không thể kết nối Backend</string>
+    <string name="action_retry">Thử lại</string>
+    <string name="action_sign_out">Đăng xuất</string>
+    <string name="action_signing_out">Đang đăng xuất…</string>
 </resources>
