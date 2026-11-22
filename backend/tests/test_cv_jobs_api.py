@@ -203,10 +203,26 @@ def test_analyze_cv_valid_pdf_returns_202_and_completes_background_job(
     async def fake_embed(*_args: Any, **_kwargs: Any) -> list[float]:
         return [0.1] * 768
 
+    matcher_calls: list[tuple[str, str, str]] = []
+
+    async def fake_run_matching(
+        self: Any,
+        job_id: str,
+        profile_id: str,
+        user_id: str,
+        **_kwargs: Any,
+    ) -> list[dict[str, Any]]:
+        matcher_calls.append((job_id, profile_id, user_id))
+        return []
+
     monkeypatch.setattr("app.api.v1.cv.upload_cv_to_storage", fake_upload)
     monkeypatch.setattr("app.services.analysis_pipeline_service.parse_cv_document", fake_parse)
     monkeypatch.setattr("app.services.analysis_pipeline_service.enrich_profile", fake_enrich)
     monkeypatch.setattr("app.services.analysis_pipeline_service.generate_embedding", fake_embed)
+    monkeypatch.setattr(
+        "app.services.matching_service.MatchingService.run_for_job",
+        fake_run_matching,
+    )
 
     response = client.post(
         "/api/v1/cv/analyze",
@@ -230,6 +246,8 @@ def test_analyze_cv_valid_pdf_returns_202_and_completes_background_job(
     assert poll_data["status"] == "COMPLETED"
     assert poll_data["progress_percent"] == 100
     assert poll_data["profile_id"] in fake_profiles.profiles
+    assert len(matcher_calls) == 1
+    assert matcher_calls[0] == (job_id, poll_data["profile_id"], "user-abc")
     assert fake_jobs.status_history == [
         "EXTRACTING",
         "ENRICHING",

@@ -27,6 +27,7 @@ from app.services.cv_parser_service import parse_cv_document
 from app.services.embedding_service import build_profile_embedding_text, generate_embedding
 from app.services.enrichment.cache import TTLCache
 from app.services.enrichment.enrichment_service import enrich_profile
+from app.services.matching_service import MatchingService
 
 logger = get_logger(__name__)
 
@@ -157,6 +158,17 @@ async def run_analysis_pipeline(
 
         if matcher_callback is not None:
             await matcher_callback(job_id, profile_id, user_id)
+        else:
+            matching_service = MatchingService(
+                profile_repo=active_profile_repo,
+                gemini_client=gemini_client,
+            )
+            await matching_service.run_for_job(
+                job_id=job_id,
+                profile_id=profile_id,
+                user_id=user_id,
+                profile_data=saved_profile,
+            )
 
         current_progress = JOB_PROGRESS_COMPLETED
         await active_job_repo.update_job_status(

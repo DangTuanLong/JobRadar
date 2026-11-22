@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL_EXTRACTION: str = "gemini-4-hydrogen"
     GEMINI_EXTRACTION_THINKING_LEVEL: str = "low"
+    GEMINI_MODEL_MATCHING: str = "gemini-2.5-flash"
     GEMINI_MODEL_EMBEDDING: str = "gemini-embedding-001"
     GITHUB_TOKEN: str = ""
     TAVILY_API_KEY: str = ""
