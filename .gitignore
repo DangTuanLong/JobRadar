@@ -43,3 +43,6 @@ Thumbs.db
 /.agent/
 /.tmp-npm-cache/
 
+# E2E Test Outputs (May contain sensitive CV data)
+/scripts/output/
+

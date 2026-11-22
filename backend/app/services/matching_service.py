@@ -1,4 +1,4 @@
-"""Service facade executing the LangGraph Hybrid Matching Agent for an analysis job."""
+"""Service facade executing the LangGraph Hybrid Matching Agent for analysis jobs."""
 
 from __future__ import annotations
 
@@ -11,15 +11,22 @@ from google import genai
 from app.agents.matching_graph import matching_graph
 from app.agents.state import MatchingAgentState
 from app.agents.tools.tavily_client import tavily_cache
-from app.core.constants import EMBEDDING_TASK_QUERY
+from app.core.constants import (
+    EMBEDDING_TASK_QUERY,
+    JOB_PROGRESS_COMPLETED,
+    JobStatus,
+)
 from app.core.exceptions import AppException
-from app.core.logging import get_logger
+from app.core.logging import get_logger, reset_job_id, set_job_id
+from app.db.repositories.job_repository import JobRepository
 from app.db.repositories.match_repository import MatchRepository
 from app.db.repositories.profile_repository import ProfileRepository
 from app.services.embedding_service import build_profile_embedding_text, generate_embedding
 from app.services.enrichment.cache import TTLCache
 
 logger = get_logger(__name__)
+
+JOB_PROGRESS_RERUN_MATCHING = 40
 
 
 def _parse_embedding(raw_embedding: Any) -> list[float]:
@@ -130,3 +137,83 @@ class MatchingService:
             config={"configurable": configurable},
         )
         return list(final_state.get("saved_matches") or [])
+
+
+async def _safe_mark_rerun_failed(
+    job_repo: JobRepository,
+    job_id: str,
+    progress_percent: int,
+    error_code: str,
+    error_message: str,
+) -> None:
+    try:
+        await job_repo.update_job_status(
+            job_id=job_id,
+            status=JobStatus.FAILED.value,
+            progress_percent=progress_percent,
+            current_step_message="Matching rerun failed.",
+            error_code=error_code,
+            error_message=error_message,
+        )
+    except Exception as exc:
+        logger.exception("Failed to mark rerun job FAILED for job_id=%s", job_id, exc_info=exc)
+
+
+async def run_matching_rerun_pipeline(
+    job_id: str,
+    profile_id: str,
+    user_id: str,
+    *,
+    job_repo: JobRepository | None = None,
+    profile_repo: ProfileRepository | None = None,
+    match_repo: MatchRepository | None = None,
+    matching_service: MatchingService | None = None,
+) -> None:
+    """Background pipeline re-running LangGraph matching on an existing candidate profile."""
+    active_job_repo = job_repo if job_repo is not None else JobRepository()
+    active_service = (
+        matching_service
+        if matching_service is not None
+        else MatchingService(profile_repo=profile_repo, match_repo=match_repo)
+    )
+
+    token = set_job_id(job_id)
+    current_progress = JOB_PROGRESS_RERUN_MATCHING
+    try:
+        await active_job_repo.update_job_status(
+            job_id=job_id,
+            status=JobStatus.MATCHING.value,
+            progress_percent=JOB_PROGRESS_RERUN_MATCHING,
+            current_step_message="Re-evaluating matching companies for updated profile...",
+            profile_id=profile_id,
+        )
+        await active_service.run_for_job(
+            job_id=job_id,
+            profile_id=profile_id,
+            user_id=user_id,
+        )
+        current_progress = JOB_PROGRESS_COMPLETED
+        await active_job_repo.update_job_status(
+            job_id=job_id,
+            status=JobStatus.COMPLETED.value,
+            progress_percent=JOB_PROGRESS_COMPLETED,
+            current_step_message="Matching rerun completed.",
+            profile_id=profile_id,
+        )
+        logger.info("Matching rerun pipeline completed for profile_id=%s", profile_id)
+    except AppException as exc:
+        logger.warning("Matching rerun failed with AppException [%s]: %s", exc.code, exc.message)
+        await _safe_mark_rerun_failed(
+            active_job_repo, job_id, current_progress, exc.code, exc.message
+        )
+    except Exception as exc:
+        logger.exception("Unhandled error in matching rerun pipeline.", exc_info=exc)
+        await _safe_mark_rerun_failed(
+            active_job_repo,
+            job_id,
+            current_progress,
+            "MATCH_RERUN_INTERNAL_ERROR",
+            "An unexpected error occurred while re-running company matching.",
+        )
+    finally:
+        reset_job_id(token)

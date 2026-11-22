@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.core.constants import (
     MATCH_WEIGHT_EXPERIENCE,
@@ -76,9 +76,36 @@ class MatchResultResponse(BaseModel):
     missing_skills: list[str] = Field(default_factory=list)
     reasoning: str | None = None
     web_evidence: list[WebEvidenceItem] = Field(default_factory=list)
+    company_name: str | None = None
+    company_website: str | None = None
+    company_location: str | None = None
+    company_industry: str | None = None
+    company_size_range: str | None = None
+    job_title: str | None = None
+    job_level: str | None = None
+    job_source_url: str | None = None
     companies: dict[str, Any] | None = None
     job_postings: dict[str, Any] | None = None
     created_at: str | None = None
+
+    @field_validator("web_evidence", mode="before")
+    @classmethod
+    def coerce_web_evidence_list(cls, value: Any) -> list[Any]:
+        return value if isinstance(value, list) else []
+
+    @model_validator(mode="after")
+    def populate_joined_summary_fields(self) -> MatchResultResponse:
+        if isinstance(self.companies, dict):
+            self.company_name = self.company_name or self.companies.get("name")
+            self.company_website = self.company_website or self.companies.get("website")
+            self.company_location = self.company_location or self.companies.get("location")
+            self.company_industry = self.company_industry or self.companies.get("industry")
+            self.company_size_range = self.company_size_range or self.companies.get("size_range")
+        if isinstance(self.job_postings, dict):
+            self.job_title = self.job_title or self.job_postings.get("title")
+            self.job_level = self.job_level or self.job_postings.get("level")
+            self.job_source_url = self.job_source_url or self.job_postings.get("source_url")
+        return self
 
 
 def compute_weighted_match_score(breakdown: ScoreBreakdown) -> int:
