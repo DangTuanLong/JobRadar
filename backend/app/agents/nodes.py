@@ -1,6 +1,5 @@
 """Async LangGraph nodes and conditional routing for Hybrid Job Matching."""
 
-import asyncio
 from typing import Any, Literal
 
 import httpx
@@ -9,8 +8,12 @@ from google.genai import types
 from langchain_core.runnables import RunnableConfig
 from pydantic import ValidationError
 
+from app.agents.research_helpers import (
+    backfill_top_web_evidence,
+    fetch_company_evidence_batch,
+)
 from app.agents.state import MatchingAgentState
-from app.agents.tools.tavily_client import search_company_web_evidence, tavily_cache
+from app.agents.tools.tavily_client import tavily_cache
 from app.core.config import settings
 from app.core.constants import (
     MATCH_MAX_CANDIDATES_FOR_LLM,
@@ -33,7 +36,11 @@ from app.schemas.match import (
     compute_weighted_match_score,
 )
 from app.services.enrichment.cache import TTLCache
-from app.services.gemini_client import call_gemini_with_retry, get_gemini_client
+from app.services.gemini_client import (
+    build_thinking_config,
+    call_gemini_with_fallback,
+    get_gemini_client,
+)
 
 logger = get_logger(__name__)
 
@@ -152,48 +159,18 @@ async def research_companies_node(
 ) -> dict[str, Any]:
     """Concurrently fetch recent web evidence via Tavily for the Top 4 retrieved companies."""
     top_candidates = (state.get("retrieved_candidates") or [])[:MATCH_TAVILY_TOP_COMPANIES]
-    if not top_candidates:
-        return {"web_research": {}}
-
     cfg = _get_configurable(config)
     http_client: httpx.AsyncClient | None = cfg.get("tavily_http_client")
     cfg_cache = cfg.get("tavily_cache")
     active_cache: TTLCache = cfg_cache if cfg_cache is not None else tavily_cache
     timeout_seconds = float(cfg.get("tavily_timeout_seconds", TAVILY_TIMEOUT_SECONDS))
 
-    async def _fetch_one(candidate: dict[str, Any]) -> tuple[str, list[dict[str, str]], str | None]:
-        company_id = str(candidate.get("company_id") or "")
-        company_name = str(candidate.get("company_name") or "").strip()
-        if not company_id or not company_name:
-            return company_id, [], None
-        try:
-            items = await asyncio.wait_for(
-                search_company_web_evidence(
-                    company_name,
-                    cache=active_cache,
-                    http_client=http_client,
-                    timeout_seconds=timeout_seconds,
-                ),
-                timeout=timeout_seconds,
-            )
-            return company_id, items, None
-        except TimeoutError:
-            msg = f"Tavily research timed out for company '{company_name}'."
-            logger.warning(msg)
-            return company_id, [], msg
-        except Exception as exc:
-            msg = f"Tavily research error for company '{company_name}': {exc}"
-            logger.warning(msg)
-            return company_id, [], msg
-
-    web_research: dict[str, list[dict[str, str]]] = {}
-    warnings: list[str] = []
-    gathered = await asyncio.gather(*(_fetch_one(c) for c in top_candidates))
-    for company_id, items, warning in gathered:
-        if company_id:
-            web_research[company_id] = items
-        if warning:
-            warnings.append(warning)
+    web_research, warnings = await fetch_company_evidence_batch(
+        top_candidates,
+        active_cache=active_cache,
+        http_client=http_client,
+        timeout_seconds=timeout_seconds,
+    )
     return {"web_research": web_research, "warnings": warnings}
 
 
@@ -217,17 +194,24 @@ async def evaluate_and_score_node(
     cfg_gemini = _get_configurable(config).get("gemini_client")
     gemini_client: genai.Client = cfg_gemini if cfg_gemini is not None else get_gemini_client()
 
-    response = await call_gemini_with_retry(
+    async def _call_model(model_name: str) -> Any:
+        thinking = build_thinking_config(model_name, settings.GEMINI_MATCHING_THINKING_LEVEL)
+        gen_config = types.GenerateContentConfig(
+            system_instruction=MATCHING_SYSTEM_INSTRUCTION,
+            response_mime_type="application/json",
+            response_schema=LLMMatchBatchResponse,
+            thinking_config=thinking,
+        )
+        return await gemini_client.aio.models.generate_content(
+            model=model_name, contents=user_prompt, config=gen_config
+        )
+
+    response = await call_gemini_with_fallback(
         "match_evaluation",
-        lambda: gemini_client.aio.models.generate_content(
-            model=settings.GEMINI_MODEL_MATCHING,
-            contents=user_prompt,
-            config=types.GenerateContentConfig(
-                system_instruction=MATCHING_SYSTEM_INSTRUCTION,
-                response_mime_type="application/json",
-                response_schema=LLMMatchBatchResponse,
-            ),
-        ),
+        _call_model,
+        primary_model=settings.GEMINI_MODEL_MATCHING,
+        fallback_model=settings.GEMINI_MODEL_FALLBACK,
+        timeout_seconds=settings.GEMINI_MATCHING_TIMEOUT_SECONDS,
     )
     try:
         batch = _parse_batch_response(response)
@@ -276,25 +260,38 @@ async def format_and_persist_node(
     state: MatchingAgentState,
     config: RunnableConfig,
 ) -> dict[str, Any]:
-    """Sort evaluated matches by deterministic score descending and persist Top K results."""
+    """Sort matches descending, backfill Top-5 Tavily web_evidence, and persist Top K results."""
     evaluated_matches = state.get("evaluated_matches") or []
     if not evaluated_matches:
         return {"saved_matches": []}
 
+    retrieved_candidates = state.get("retrieved_candidates") or []
     sim_map = {
         str(c.get("job_posting_id")): float(c.get("similarity") or 0.0)
-        for c in (state.get("retrieved_candidates") or [])
+        for c in retrieved_candidates
     }
+
     def _sort_key(m: dict[str, Any]) -> tuple[int, float]:
         return int(m.get("match_score") or 0), sim_map.get(str(m.get("job_posting_id")), 0.0)
 
-    sorted_matches = sorted(evaluated_matches, key=_sort_key, reverse=True)
-    cfg_repo = _get_configurable(config).get("match_repo")
+    top_matches = sorted(evaluated_matches, key=_sort_key, reverse=True)[:MATCH_TOP_RESULTS_TO_SAVE]
+    cfg = _get_configurable(config)
+    cfg_cache = cfg.get("tavily_cache")
+    active_cache: TTLCache = cfg_cache if cfg_cache is not None else tavily_cache
+    top_matches, merged_research, backfill_warnings = await backfill_top_web_evidence(
+        top_matches,
+        retrieved_candidates=retrieved_candidates,
+        prior_web_research=state.get("web_research") or {},
+        active_cache=active_cache,
+        http_client=cfg.get("tavily_http_client"),
+        timeout_seconds=float(cfg.get("tavily_timeout_seconds", TAVILY_TIMEOUT_SECONDS)),
+    )
+
+    cfg_repo = cfg.get("match_repo")
     match_repo: MatchRepository = cfg_repo if cfg_repo is not None else MatchRepository()
+    job_id, profile_id = str(state.get("job_id") or ""), str(state.get("profile_id") or "")
     saved = await match_repo.save_match_results(
-        job_id=str(state.get("job_id") or ""),
-        profile_id=str(state.get("profile_id") or ""),
-        results=sorted_matches[:MATCH_TOP_RESULTS_TO_SAVE],
+        job_id=job_id, profile_id=profile_id, results=top_matches
     )
     logger.info("Persisted %d explainable match result(s).", len(saved))
-    return {"saved_matches": saved}
+    return {"saved_matches": saved, "web_research": merged_research, "warnings": backfill_warnings}

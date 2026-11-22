@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from typing import Any
 from urllib.parse import urlsplit
 
 import pymupdf
@@ -36,7 +37,11 @@ from app.schemas.profile import (
     SkillItem,
     normalize_url,
 )
-from app.services.gemini_client import call_gemini_with_retry, get_gemini_client
+from app.services.gemini_client import (
+    build_thinking_config,
+    call_gemini_with_fallback,
+    get_gemini_client,
+)
 
 logger = get_logger(__name__)
 
@@ -45,7 +50,6 @@ _MAGIC_BYTES_BY_MIME: dict[str, bytes] = {
     MIME_PNG: PNG_MAGIC_BYTES,
     MIME_JPEG: JPEG_MAGIC_BYTES,
 }
-_ALLOWED_THINKING_LEVELS = frozenset({"low", "medium", "high", "xhigh"})
 
 
 def validate_cv_file(
@@ -56,11 +60,7 @@ def validate_cv_file(
 ) -> str:
     """Validate non-empty size, file size <= 5MB, MIME type, and actual magic bytes."""
     if not file_bytes:
-        raise AppException(
-            status_code=400,
-            code="CV_FILE_EMPTY",
-            message="Uploaded file is empty.",
-        )
+        raise AppException(status_code=400, code="CV_FILE_EMPTY", message="Uploaded file is empty.")
 
     if len(file_bytes) > MAX_CV_FILE_SIZE_BYTES:
         raise AppException(
@@ -77,12 +77,8 @@ def validate_cv_file(
             message="Unsupported file format. Only PDF, PNG, and JPEG are allowed.",
         )
 
-    expected_magic = _MAGIC_BYTES_BY_MIME[normalized_mime]
-    if not file_bytes.startswith(expected_magic):
-        logger.warning(
-            "File magic bytes mismatch for declared MIME type '%s'.",
-            normalized_mime,
-        )
+    if not file_bytes.startswith(_MAGIC_BYTES_BY_MIME[normalized_mime]):
+        logger.warning("File magic bytes mismatch for declared MIME type '%s'.", normalized_mime)
         raise AppException(
             status_code=400,
             code="CV_UNSUPPORTED_FORMAT",
@@ -111,14 +107,12 @@ def extract_pdf_links_sync(pdf_bytes: bytes) -> list[str]:
                 code="CV_CORRUPT_FILE",
                 message="Password-protected or encrypted PDF files are not supported.",
             )
-
         if doc.page_count <= 0:
             raise AppException(
                 status_code=400,
                 code="CV_CORRUPT_FILE",
                 message="PDF file contains no readable pages.",
             )
-
         if doc.page_count > MAX_PDF_PAGES:
             raise AppException(
                 status_code=400,
@@ -140,18 +134,13 @@ def extract_pdf_links_sync(pdf_bytes: bytes) -> list[str]:
         doc.close()
 
 
-def _deduplicate_skills(
-    skills: list[SkillItem],
-    *,
-    verified_sources: list[str],
-) -> list[SkillItem]:
+def _deduplicate_skills(skills: list[SkillItem], *, verified_sources: list[str]) -> list[SkillItem]:
     """Merge duplicate skills case-insensitively, keeping the highest proficiency level."""
     merged: dict[str, SkillItem] = {}
     for skill in skills:
         key = skill.name.strip().lower()
         if not key:
             continue
-
         candidate = SkillItem(
             name=skill.name.strip(),
             category=skill.category,
@@ -162,25 +151,17 @@ def _deduplicate_skills(
         if existing is None:
             merged[key] = candidate
             continue
-
         if SKILL_LEVEL_RANK[candidate.level] > SKILL_LEVEL_RANK[existing.level]:
             existing.level = candidate.level
         if existing.category == "other" and candidate.category != "other":
             existing.category = candidate.category
-
     return list(merged.values())
 
 
-def _merge_external_links(
-    links: ExternalLinks,
-    extracted_urls: list[str],
-) -> ExternalLinks:
+def _merge_external_links(links: ExternalLinks, extracted_urls: list[str]) -> ExternalLinks:
     """Merge PDF annotation links into ExternalLinks when LLM output missed them."""
-    github = links.github
-    linkedin = links.linkedin
-    portfolio = links.portfolio
+    github, linkedin, portfolio = links.github, links.linkedin, links.portfolio
     other = list(links.other)
-
     for url in extracted_urls:
         host = urlsplit(url).netloc.lower()
         if host == "github.com" or host.endswith(".github.com"):
@@ -198,13 +179,7 @@ def _merge_external_links(
                 portfolio = url
             elif url != portfolio and url not in other:
                 other.append(url)
-
-    return ExternalLinks(
-        github=github,
-        portfolio=portfolio,
-        linkedin=linkedin,
-        other=other,
-    )
+    return ExternalLinks(github=github, portfolio=portfolio, linkedin=linkedin, other=other)
 
 
 def _postprocess_extracted_profile(
@@ -225,40 +200,14 @@ def _postprocess_extracted_profile(
     verified_sources = [VerificationSource.CV.value]
     if has_linkedin_pdf:
         verified_sources.append(VerificationSource.LINKEDIN_PDF.value)
-
-    cleaned_skills = _deduplicate_skills(profile.skills, verified_sources=verified_sources)
-    merged_links = _merge_external_links(profile.external_links, extracted_urls)
-
     return CandidateProfileExtracted(
         full_name=profile.full_name.strip() if profile.full_name else None,
         headline=profile.headline.strip() if profile.headline else None,
         years_of_experience=profile.years_of_experience,
-        skills=cleaned_skills,
+        skills=_deduplicate_skills(profile.skills, verified_sources=verified_sources),
         experiences=profile.experiences,
-        external_links=merged_links,
+        external_links=_merge_external_links(profile.external_links, extracted_urls),
         profile_summary=profile.profile_summary.strip() if profile.profile_summary else None,
-    )
-
-
-def _build_extraction_config() -> types.GenerateContentConfig:
-    """Build Gemini structured-output generation config with optional thinking level."""
-    thinking_config: types.ThinkingConfig | None = None
-    level = settings.GEMINI_EXTRACTION_THINKING_LEVEL.strip().lower()
-    model_name = settings.GEMINI_MODEL_EXTRACTION.strip().lower()
-    if level and model_name.startswith(("gemini-3", "gemini-4")):
-        if level not in _ALLOWED_THINKING_LEVELS:
-            raise AppException(
-                status_code=500,
-                code="AI_CONFIG_ERROR",
-                message=f"Unsupported Gemini thinking level: {level}",
-            )
-        thinking_config = types.ThinkingConfig(thinking_level=level)
-
-    return types.GenerateContentConfig(
-        system_instruction=CV_EXTRACTION_SYSTEM_INSTRUCTION,
-        response_mime_type="application/json",
-        response_schema=CandidateProfileExtracted,
-        thinking_config=thinking_config,
     )
 
 
@@ -273,7 +222,6 @@ def _parse_gemini_profile_response(response: object) -> CandidateProfileExtracte
     raw_text = getattr(response, "text", None)
     if isinstance(raw_text, str) and raw_text.strip():
         return CandidateProfileExtracted.model_validate_json(raw_text)
-
     raise ValueError("Gemini response contained neither parsed object nor JSON text.")
 
 
@@ -288,7 +236,6 @@ async def parse_cv_document(
     """Validate CV file(s), extract hidden PDF hyperlinks, and parse via Gemini Multimodal."""
     cv_mime = validate_cv_file(cv_bytes, cv_content_type)
     extracted_links: list[str] = []
-
     if cv_mime == MIME_PDF:
         extracted_links.extend(await asyncio.to_thread(extract_pdf_links_sync, cv_bytes))
 
@@ -299,33 +246,39 @@ async def parse_cv_document(
             linkedin_content_type or MIME_PDF,
             allowed_mime_types=frozenset({MIME_PDF}),
         )
-        linkedin_links = await asyncio.to_thread(extract_pdf_links_sync, linkedin_pdf_bytes)
-        for url in linkedin_links:
+        for url in await asyncio.to_thread(extract_pdf_links_sync, linkedin_pdf_bytes):
             if url not in extracted_links:
                 extracted_links.append(url)
         has_linkedin_pdf = True
 
-    parts: list[types.Part | str] = [
-        types.Part.from_bytes(data=cv_bytes, mime_type=cv_mime),
-    ]
+    parts: list[types.Part | str] = [types.Part.from_bytes(data=cv_bytes, mime_type=cv_mime)]
     if has_linkedin_pdf and linkedin_pdf_bytes is not None:
         parts.append(types.Part.from_bytes(data=linkedin_pdf_bytes, mime_type=MIME_PDF))
-    parts.append(
-        build_cv_extraction_user_prompt(
-            extracted_links,
-            has_linkedin_pdf=has_linkedin_pdf,
-        )
+    user_prompt = build_cv_extraction_user_prompt(
+        extracted_links, has_linkedin_pdf=has_linkedin_pdf
     )
+    parts.append(user_prompt)
 
     gemini_client = client if client is not None else get_gemini_client()
-    extraction_config = _build_extraction_config()
-    response = await call_gemini_with_retry(
+
+    async def _call_model(model_name: str) -> Any:
+        thinking = build_thinking_config(model_name, settings.GEMINI_EXTRACTION_THINKING_LEVEL)
+        config = types.GenerateContentConfig(
+            system_instruction=CV_EXTRACTION_SYSTEM_INSTRUCTION,
+            response_mime_type="application/json",
+            response_schema=CandidateProfileExtracted,
+            thinking_config=thinking,
+        )
+        return await gemini_client.aio.models.generate_content(
+            model=model_name, contents=parts, config=config
+        )
+
+    response = await call_gemini_with_fallback(
         "cv_extraction",
-        lambda: gemini_client.aio.models.generate_content(
-            model=settings.GEMINI_MODEL_EXTRACTION,
-            contents=parts,
-            config=extraction_config,
-        ),
+        _call_model,
+        primary_model=settings.GEMINI_MODEL_EXTRACTION,
+        fallback_model=settings.GEMINI_MODEL_FALLBACK,
+        timeout_seconds=settings.GEMINI_EXTRACTION_TIMEOUT_SECONDS,
     )
 
     try:

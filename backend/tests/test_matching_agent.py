@@ -142,7 +142,10 @@ async def test_full_hybrid_flow_limits_tavily_to_top_4_and_sorts_desc(
         evaluations=[
             _eval("jp-1", "comp-1", 80, 60, 60, llm_score=10),
             _eval("jp-2", "comp-2", 92, 88, 88, llm_score=10),
-            _eval("jp-5", "comp-5", 80, 70, 70, llm_score=50),
+            _eval("jp-3", "comp-3", 78, 60, 60, llm_score=10),
+            _eval("jp-4", "comp-4", 76, 60, 60, llm_score=10),
+            _eval("jp-5", "comp-5", 84, 80, 80, llm_score=50),  # Vector #5 -> Score #2 (82)
+            _eval("jp-6", "comp-6", 60, 50, 50, llm_score=50),  # Vector #6 -> Score #6 (55)
         ]
     )
     gemini = _mock_gemini(batch)
@@ -155,10 +158,20 @@ async def test_full_hybrid_flow_limits_tavily_to_top_4_and_sorts_desc(
         )
         saved = await svc.run_for_job("j1", "p1", "u1", profile_data=_profile())
 
-    assert len(queries) == MATCH_TAVILY_TOP_COMPANIES and gemini._fn.await_count == 1
-    assert [r["job_posting_id"] for r in saved] == ["jp-2", "jp-5", "jp-1"]
-    assert [r["match_score"] for r in saved] == [90, 75, 70]
-    assert len(saved[0]["web_evidence"]) == 1 and saved[1]["web_evidence"] == []
+    # 4 initial vector Top-4 queries + 1 backfill query for comp-5 (which jumped into Top 5).
+    assert len(queries) == MATCH_TAVILY_TOP_COMPANIES + 1 and gemini._fn.await_count == 1
+    assert [r["job_posting_id"] for r in saved] == [
+        "jp-2",
+        "jp-5",
+        "jp-1",
+        "jp-3",
+        "jp-4",
+        "jp-6",
+    ]
+    assert [r["match_score"] for r in saved] == [90, 82, 70, 69, 68, 55]
+    # All Top-5 results now have web_evidence (including backfilled comp-5), while #6 does not.
+    assert all(len(r["web_evidence"]) == 1 for r in saved[:5])
+    assert saved[5]["web_evidence"] == []
 
 
 @pytest.mark.asyncio
