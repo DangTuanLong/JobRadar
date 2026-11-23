@@ -8,6 +8,7 @@ data class MainShellUiState(
     val email: String? = null,
     val backendStatus: BackendStatus = BackendStatus.Checking,
     val isSigningOut: Boolean = false,
+    val latestCompletedJobId: String? = null,
 )
 
 sealed interface BackendStatus {

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircleOutline
 import androidx.compose.material.icons.outlined.CloudOff
-import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.TravelExplore
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -27,7 +26,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,30 +34,8 @@ import com.jobradar.app.R
 import com.jobradar.app.ui.theme.JobRadarTheme
 
 @Composable
-fun ScanCvPlaceholder(modifier: Modifier = Modifier) {
-    FeaturePlaceholderContent(
-        icon = Icons.Outlined.DocumentScanner,
-        title = stringResource(R.string.tab_scan_cv),
-        description = stringResource(R.string.placeholder_scan_cv_desc),
-        modifier = modifier,
-    )
-}
-
-@Composable
-fun SuggestionsPlaceholder(modifier: Modifier = Modifier) {
-    FeaturePlaceholderContent(
-        icon = Icons.Outlined.TravelExplore,
-        title = stringResource(R.string.tab_suggestions),
-        description = stringResource(R.string.placeholder_suggestions_desc),
-        modifier = modifier,
-    )
-}
-
-@Composable
-private fun FeaturePlaceholderContent(
-    icon: ImageVector,
-    title: String,
-    description: String,
+fun SuggestionsPlaceholder(
+    latestCompletedJobId: String?,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -70,20 +46,20 @@ private fun FeaturePlaceholderContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            imageVector = icon,
+            imageVector = Icons.Outlined.TravelExplore,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(56.dp),
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = title,
+            text = stringResource(R.string.tab_suggestions),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = description,
+            text = stringResource(R.string.placeholder_suggestions_desc),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -94,6 +70,29 @@ private fun FeaturePlaceholderContent(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.secondary,
         )
+        if (!latestCompletedJobId.isNullOrBlank()) {
+            Spacer(modifier = Modifier.height(20.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                ),
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = stringResource(R.string.placeholder_latest_job_label),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = stringResource(R.string.placeholder_latest_job_id, latestCompletedJobId),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                }
+            }
+        }
     }
 }
 

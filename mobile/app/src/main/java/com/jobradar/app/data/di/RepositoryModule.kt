@@ -1,9 +1,14 @@
 package com.jobradar.app.data.di
 
 import com.jobradar.app.core.network.SessionTokenProvider
+import com.jobradar.app.data.file.DocumentFileHelper
+import com.jobradar.app.data.file.DocumentMultipartFactory
+import com.jobradar.app.data.repository.AnalysisRepositoryImpl
 import com.jobradar.app.data.repository.AuthRepositoryImpl
 import com.jobradar.app.data.repository.HealthRepositoryImpl
+import com.jobradar.app.domain.repository.AnalysisRepository
 import com.jobradar.app.domain.repository.AuthRepository
+import com.jobradar.app.domain.repository.DocumentFileInspector
 import com.jobradar.app.domain.repository.HealthRepository
 import dagger.Binds
 import dagger.Module
@@ -26,4 +31,16 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindHealthRepository(impl: HealthRepositoryImpl): HealthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDocumentFileInspector(impl: DocumentFileHelper): DocumentFileInspector
+
+    @Binds
+    @Singleton
+    abstract fun bindDocumentMultipartFactory(impl: DocumentFileHelper): DocumentMultipartFactory
+
+    @Binds
+    @Singleton
+    abstract fun bindAnalysisRepository(impl: AnalysisRepositoryImpl): AnalysisRepository
 }

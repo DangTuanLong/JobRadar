@@ -54,4 +54,47 @@
     <string name="action_retry">Thử lại</string>
     <string name="action_sign_out">Đăng xuất</string>
     <string name="action_signing_out">Đang đăng xuất…</string>
+
+    <!-- Upload CV & Analysis progress -->
+    <string name="upload_title">Quét CV thông minh</string>
+    <string name="upload_subtitle">Tải lên CV để AI trích xuất kỹ năng, xác thực GitHub/Portfolio và gợi ý công ty phù hợp</string>
+    <string name="upload_cv_card_title">CV chính (Bắt buộc)</string>
+    <string name="upload_cv_card_hint">Hỗ trợ PDF, PNG, JPG — tối đa 5 MB</string>
+    <string name="upload_linkedin_card_title">Hồ sơ LinkedIn PDF (Tùy chọn)</string>
+    <string name="upload_linkedin_card_hint">Xuất PDF từ LinkedIn để tăng độ chính xác — tối đa 5 MB</string>
+    <string name="upload_action_pick_file">Chọn tệp</string>
+    <string name="upload_action_change_file">Đổi tệp</string>
+    <string name="upload_action_remove_file">Xóa tệp</string>
+    <string name="upload_action_start">Phân tích CV ngay</string>
+    <string name="upload_status_uploading">Đang tải tệp lên máy chủ…</string>
+    <string name="upload_step_pending">Đang tải tệp &amp; khởi tạo</string>
+    <string name="upload_step_extracting">Trích xuất CV &amp; liên kết ẩn</string>
+    <string name="upload_step_enriching">Làm giàu dữ liệu GitHub / Portfolio</string>
+    <string name="upload_step_matching">AI đối chiếu &amp; chấm điểm công ty</string>
+    <string name="upload_progress_title">Đang phân tích hồ sơ</string>
+    <string name="upload_progress_percent">%1$d%%</string>
+    <string name="upload_elapsed_label">Thời gian: %1$s</string>
+    <string name="upload_action_cancel_tracking">Hủy theo dõi</string>
+    <string name="upload_completed_title">Phân tích CV hoàn tất!</string>
+    <string name="upload_completed_subtitle">Hồ sơ năng lực và danh sách công ty phù hợp đã sẵn sàng.</string>
+    <string name="upload_action_view_suggestions">Xem gợi ý công ty</string>
+    <string name="upload_action_scan_another">Quét CV khác</string>
+    <string name="upload_error_title">Không thể hoàn tất phân tích</string>
+    <string name="upload_action_reset">Chọn lại tệp</string>
+    <string name="upload_error_file_empty">Tệp rỗng (0 bytes). Vui lòng chọn tệp hợp lệ</string>
+    <string name="upload_error_file_too_large">Dung lượng tệp vượt quá giới hạn 5 MB</string>
+    <string name="upload_error_cv_unsupported_format">Định dạng CV không hợp lệ. Chỉ hỗ trợ PDF, PNG hoặc JPG</string>
+    <string name="upload_error_linkedin_unsupported_format">Tệp LinkedIn chỉ hỗ trợ định dạng PDF</string>
+    <string name="upload_error_file_read">Không thể đọc tệp đã chọn. Vui lòng chọn lại</string>
+    <string name="upload_error_cv_corrupt">Tệp PDF bị lỗi hoặc có mật khẩu bảo vệ</string>
+    <string name="upload_error_cv_too_many_pages">CV vượt quá số trang tối đa cho phép (10 trang)</string>
+    <string name="upload_error_cv_parse_failed">Không thể trích xuất nội dung CV. Hãy thử tệp rõ nét hơn</string>
+    <string name="upload_error_job_not_found">Không tìm thấy tiến trình phân tích này</string>
+    <string name="upload_error_ai_rate_limited">Hệ thống AI đang quá tải. Vui lòng thử lại sau ít phút</string>
+    <string name="upload_error_ai_service">Dịch vụ AI tạm thời gián đoạn. Vui lòng thử lại</string>
+    <string name="upload_error_session_expired">Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại</string>
+    <string name="upload_error_polling_timeout">Quá thời gian chờ phản hồi (5 phút). Vui lòng thử lại</string>
+    <string name="upload_error_analysis_failed">Quá trình phân tích gặp sự cố. Vui lòng thử lại</string>
+    <string name="placeholder_latest_job_label">Phiên phân tích gần nhất đã sẵn sàng</string>
+    <string name="placeholder_latest_job_id">Mã phân tích: %1$s</string>
 </resources>

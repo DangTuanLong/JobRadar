@@ -28,6 +28,7 @@ import com.jobradar.app.ui.auth.AuthEvent
 import com.jobradar.app.ui.navigation.ProfileTabRoute
 import com.jobradar.app.ui.navigation.ScanCvTabRoute
 import com.jobradar.app.ui.navigation.SuggestionsTabRoute
+import com.jobradar.app.ui.upload.UploadCvScreen
 
 @Composable
 fun MainShellScreen(
@@ -40,6 +41,16 @@ fun MainShellScreen(
     val currentDestination = navBackStackEntry?.destination
     val snackbarHostState = remember { SnackbarHostState() }
     val resources = LocalResources.current
+
+    fun navigateToTab(tab: MainTab) {
+        tabNavController.navigate(tab.route) {
+            popUpTo(tabNavController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 
     LaunchedEffect(viewModel) {
         viewModel.events.collect { event ->
@@ -67,15 +78,7 @@ fun MainShellScreen(
                     val label = stringResource(tab.labelRes)
                     NavigationBarItem(
                         selected = isSelected,
-                        onClick = {
-                            tabNavController.navigate(tab.route) {
-                                popUpTo(tabNavController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { navigateToTab(tab) },
                         icon = {
                             Icon(
                                 imageVector = tab.icon,
@@ -94,10 +97,14 @@ fun MainShellScreen(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable<ScanCvTabRoute> {
-                ScanCvPlaceholder()
+                UploadCvScreen(
+                    onNavigateToSuggestions = { navigateToTab(MainTab.SUGGESTIONS) },
+                )
             }
             composable<SuggestionsTabRoute> {
-                SuggestionsPlaceholder()
+                SuggestionsPlaceholder(
+                    latestCompletedJobId = uiState.latestCompletedJobId,
+                )
             }
             composable<ProfileTabRoute> {
                 ProfileTabContent(

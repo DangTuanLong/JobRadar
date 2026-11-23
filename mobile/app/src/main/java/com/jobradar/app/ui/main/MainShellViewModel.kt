@@ -7,6 +7,7 @@ import com.jobradar.app.domain.model.AuthSessionState
 import com.jobradar.app.domain.model.BackendHealth
 import com.jobradar.app.domain.repository.AuthRepository
 import com.jobradar.app.domain.repository.HealthRepository
+import com.jobradar.app.domain.state.ActiveAnalysisStore
 import com.jobradar.app.ui.auth.AuthEvent
 import com.jobradar.app.ui.auth.authErrorMessageRes
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +32,7 @@ private const val STOP_TIMEOUT_MILLIS = 5_000L
 class MainShellViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val healthRepository: HealthRepository,
+    activeAnalysisStore: ActiveAnalysisStore,
 ) : ViewModel() {
 
     private val healthRefreshTrigger = MutableStateFlow(0)
@@ -51,7 +53,8 @@ class MainShellViewModel @Inject constructor(
         authRepository.sessionState,
         backendStatus,
         isSigningOut,
-    ) { session, status, signingOut ->
+        activeAnalysisStore.latestCompletedJobId,
+    ) { session, status, signingOut, latestCompletedJobId ->
         val email = when (session) {
             is AuthSessionState.Authenticated -> session.email
             AuthSessionState.Loading,
@@ -62,6 +65,7 @@ class MainShellViewModel @Inject constructor(
             email = email,
             backendStatus = status,
             isSigningOut = signingOut,
+            latestCompletedJobId = latestCompletedJobId,
         )
     }.stateIn(
         scope = viewModelScope,

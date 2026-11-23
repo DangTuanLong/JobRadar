@@ -8,6 +8,7 @@ import com.jobradar.app.domain.model.AuthErrorCodes
 import com.jobradar.app.domain.model.AuthSessionState
 import com.jobradar.app.domain.model.SignUpOutcome
 import com.jobradar.app.domain.repository.AuthRepository
+import com.jobradar.app.domain.state.ActiveAnalysisStore
 import dagger.Lazy
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -29,6 +30,7 @@ private const val TAG = "AuthRepository"
 class AuthRepositoryImpl @Inject constructor(
     private val supabase: Lazy<SupabaseClient>,
     private val config: AppConfig,
+    private val activeAnalysisStore: ActiveAnalysisStore,
 ) : AuthRepository, SessionTokenProvider {
 
     override val sessionState: Flow<AuthSessionState> =
@@ -88,6 +90,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
         return try {
             supabase.get().auth.signOut()
+            activeAnalysisStore.clear()
             AppResult.Success(Unit)
         } catch (e: CancellationException) {
             throw e
@@ -111,9 +114,14 @@ class AuthRepositoryImpl @Inject constructor(
             email = status.session.user?.email,
         )
 
-        is SessionStatus.NotAuthenticated -> AuthSessionState.Unauthenticated
+        is SessionStatus.NotAuthenticated -> {
+            activeAnalysisStore.clear()
+            AuthSessionState.Unauthenticated
+        }
+
         is SessionStatus.RefreshFailure -> {
             Log.w(TAG, "Session refresh failed")
+            activeAnalysisStore.clear()
             AuthSessionState.Unauthenticated
         }
     }

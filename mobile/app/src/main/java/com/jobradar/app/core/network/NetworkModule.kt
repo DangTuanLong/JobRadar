@@ -3,6 +3,7 @@ package com.jobradar.app.core.network
 import com.jobradar.app.BuildConfig
 import com.jobradar.app.core.config.AppConfig
 import com.jobradar.app.data.remote.JobRadarApiService
+import com.jobradar.app.data.repository.AnalysisPollingConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -84,4 +85,8 @@ object NetworkModule {
     @Singleton
     fun provideJobRadarApiService(retrofit: Retrofit): JobRadarApiService =
         retrofit.create(JobRadarApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAnalysisPollingConfig(): AnalysisPollingConfig = AnalysisPollingConfig()
 }
