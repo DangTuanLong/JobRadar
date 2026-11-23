@@ -6,10 +6,12 @@ import com.jobradar.app.data.file.DocumentMultipartFactory
 import com.jobradar.app.data.repository.AnalysisRepositoryImpl
 import com.jobradar.app.data.repository.AuthRepositoryImpl
 import com.jobradar.app.data.repository.HealthRepositoryImpl
+import com.jobradar.app.data.repository.ProfileRepositoryImpl
 import com.jobradar.app.domain.repository.AnalysisRepository
 import com.jobradar.app.domain.repository.AuthRepository
 import com.jobradar.app.domain.repository.DocumentFileInspector
 import com.jobradar.app.domain.repository.HealthRepository
+import com.jobradar.app.domain.repository.ProfileRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -43,4 +45,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAnalysisRepository(impl: AnalysisRepositoryImpl): AnalysisRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindProfileRepository(impl: ProfileRepositoryImpl): ProfileRepository
 }

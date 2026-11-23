@@ -28,6 +28,7 @@ import com.jobradar.app.ui.auth.AuthEvent
 import com.jobradar.app.ui.navigation.ProfileTabRoute
 import com.jobradar.app.ui.navigation.ScanCvTabRoute
 import com.jobradar.app.ui.navigation.SuggestionsTabRoute
+import com.jobradar.app.ui.profile.ProfileScreen
 import com.jobradar.app.ui.upload.UploadCvScreen
 
 @Composable
@@ -107,10 +108,11 @@ fun MainShellScreen(
                 )
             }
             composable<ProfileTabRoute> {
-                ProfileTabContent(
-                    uiState = uiState,
-                    onRetryHealth = viewModel::retryHealthCheck,
+                ProfileScreen(
+                    isSigningOut = uiState.isSigningOut,
                     onSignOut = viewModel::signOut,
+                    onNavigateToScanCv = { navigateToTab(MainTab.SCAN_CV) },
+                    onNavigateToSuggestions = { navigateToTab(MainTab.SUGGESTIONS) },
                 )
             }
         }
