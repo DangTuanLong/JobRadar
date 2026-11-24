@@ -4,6 +4,7 @@ import android.util.Log
 import com.jobradar.app.core.config.AppConfig
 import com.jobradar.app.core.network.AppResult
 import com.jobradar.app.core.network.SessionTokenProvider
+import com.jobradar.app.data.cache.MatchCacheStore
 import com.jobradar.app.domain.model.AuthErrorCodes
 import com.jobradar.app.domain.model.AuthSessionState
 import com.jobradar.app.domain.model.SignUpOutcome
@@ -31,6 +32,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val supabase: Lazy<SupabaseClient>,
     private val config: AppConfig,
     private val activeAnalysisStore: ActiveAnalysisStore,
+    private val matchCacheStore: MatchCacheStore,
 ) : AuthRepository, SessionTokenProvider {
 
     override val sessionState: Flow<AuthSessionState> =
@@ -91,6 +93,7 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             supabase.get().auth.signOut()
             activeAnalysisStore.clear()
+            matchCacheStore.clear()
             AppResult.Success(Unit)
         } catch (e: CancellationException) {
             throw e
@@ -116,12 +119,14 @@ class AuthRepositoryImpl @Inject constructor(
 
         is SessionStatus.NotAuthenticated -> {
             activeAnalysisStore.clear()
+            matchCacheStore.clear()
             AuthSessionState.Unauthenticated
         }
 
         is SessionStatus.RefreshFailure -> {
             Log.w(TAG, "Session refresh failed")
             activeAnalysisStore.clear()
+            matchCacheStore.clear()
             AuthSessionState.Unauthenticated
         }
     }

@@ -6,6 +6,7 @@ import com.jobradar.app.data.remote.dto.AnalysisJobDto
 import com.jobradar.app.data.remote.dto.CandidateProfileDto
 import com.jobradar.app.data.remote.dto.CandidateProfileUpdateRequestDto
 import com.jobradar.app.data.remote.dto.HealthDto
+import com.jobradar.app.data.remote.dto.MatchResultDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 
@@ -26,6 +27,10 @@ class FakeJobRadarApiService : JobRadarApiService {
     var updateProfileCalls = 0
         private set
     var rerunMatchesCalls = 0
+        private set
+    var getMatchesCalls = 0
+        private set
+    var lastMatchesJobId: String? = null
         private set
 
     private val queuedPollResponses = ArrayDeque<suspend (String) -> Response<ApiResponse<AnalysisJobDto>>>()
@@ -48,6 +53,10 @@ class FakeJobRadarApiService : JobRadarApiService {
 
     var rerunMatchesHandler: suspend () -> Response<ApiResponse<AnalysisJobDto>> = {
         error("rerunMatchesHandler not configured")
+    }
+
+    var getMatchesHandler: suspend (String) -> Response<ApiResponse<List<MatchResultDto>>> = {
+        error("getMatchesHandler not configured")
     }
 
     fun enqueuePollResponses(vararg responses: suspend (String) -> Response<ApiResponse<AnalysisJobDto>>) {
@@ -89,5 +98,11 @@ class FakeJobRadarApiService : JobRadarApiService {
     override suspend fun rerunMatches(): Response<ApiResponse<AnalysisJobDto>> {
         rerunMatchesCalls++
         return rerunMatchesHandler()
+    }
+
+    override suspend fun getMatches(jobId: String): Response<ApiResponse<List<MatchResultDto>>> {
+        getMatchesCalls++
+        lastMatchesJobId = jobId
+        return getMatchesHandler(jobId)
     }
 }

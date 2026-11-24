@@ -5,6 +5,7 @@ import com.jobradar.app.data.remote.dto.AnalysisJobDto
 import com.jobradar.app.data.remote.dto.CandidateProfileDto
 import com.jobradar.app.data.remote.dto.CandidateProfileUpdateRequestDto
 import com.jobradar.app.data.remote.dto.HealthDto
+import com.jobradar.app.data.remote.dto.MatchResultDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,10 +15,10 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Retrofit contract for JobRadar backend v1 endpoints.
- * Match query endpoint will be added in Prompt 4.4.
  */
 interface JobRadarApiService {
     @GET("health")
@@ -45,4 +46,9 @@ interface JobRadarApiService {
 
     @POST("matches/rerun")
     suspend fun rerunMatches(): Response<ApiResponse<AnalysisJobDto>>
+
+    @GET("matches")
+    suspend fun getMatches(
+        @Query("job_id") jobId: String,
+    ): Response<ApiResponse<List<MatchResultDto>>>
 }

@@ -22,3 +22,9 @@ data object SuggestionsTabRoute
 
 @Serializable
 data object ProfileTabRoute
+
+@Serializable
+data class MatchDetailRoute(
+    val jobId: String,
+    val matchId: String,
+)

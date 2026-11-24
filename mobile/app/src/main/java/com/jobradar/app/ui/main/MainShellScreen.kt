@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jobradar.app.ui.auth.AuthEvent
+import com.jobradar.app.ui.matches.MatchesScreen
 import com.jobradar.app.ui.navigation.ProfileTabRoute
 import com.jobradar.app.ui.navigation.ScanCvTabRoute
 import com.jobradar.app.ui.navigation.SuggestionsTabRoute
@@ -33,6 +34,7 @@ import com.jobradar.app.ui.upload.UploadCvScreen
 
 @Composable
 fun MainShellScreen(
+    onOpenMatchDetail: (jobId: String, matchId: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MainShellViewModel = hiltViewModel(),
 ) {
@@ -103,8 +105,10 @@ fun MainShellScreen(
                 )
             }
             composable<SuggestionsTabRoute> {
-                SuggestionsPlaceholder(
-                    latestCompletedJobId = uiState.latestCompletedJobId,
+                MatchesScreen(
+                    onOpenMatchDetail = onOpenMatchDetail,
+                    onNavigateToScanCv = { navigateToTab(MainTab.SCAN_CV) },
+                    onNavigateToProfile = { navigateToTab(MainTab.PROFILE) },
                 )
             }
             composable<ProfileTabRoute> {

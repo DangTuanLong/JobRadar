@@ -15,6 +15,7 @@ import com.jobradar.app.domain.model.AuthSessionState
 import com.jobradar.app.ui.auth.LoginScreen
 import com.jobradar.app.ui.auth.RegisterScreen
 import com.jobradar.app.ui.main.MainShellScreen
+import com.jobradar.app.ui.matches.detail.MatchDetailScreen
 import com.jobradar.app.ui.splash.SplashScreen
 
 @Composable
@@ -50,7 +51,20 @@ fun JobRadarNavGraph(
             )
         }
         composable<MainShellRoute> {
-            MainShellScreen()
+            MainShellScreen(
+                onOpenMatchDetail = { jobId, matchId ->
+                    navController.navigate(MatchDetailRoute(jobId = jobId, matchId = matchId)) {
+                        launchSingleTop = true
+                    }
+                },
+            )
+        }
+        composable<MatchDetailRoute> {
+            MatchDetailScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+            )
         }
     }
 

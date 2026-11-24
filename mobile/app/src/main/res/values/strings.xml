@@ -160,4 +160,45 @@
     <string name="profile_error_skill_empty">Vui lòng nhập tên kỹ năng</string>
     <string name="profile_error_skill_duplicate">Kỹ năng này đã có trong hồ sơ</string>
     <string name="profile_error_open_link">Không thể mở liên kết này</string>
+
+    <!-- Matches list & explainable detail -->
+    <string name="matches_title">Công ty gợi ý</string>
+    <string name="matches_search_placeholder">Tìm tên công ty, vị trí hoặc kỹ năng…</string>
+    <string name="matches_filter_all">Tất cả</string>
+    <string name="matches_sort_overall">Tổng điểm</string>
+    <string name="matches_sort_skills">Điểm kỹ năng</string>
+    <string name="matches_result_count">%1$d gợi ý phù hợp</string>
+    <string name="matches_rank_format">#%1$d</string>
+    <string name="matches_score_badge">%1$d%%</string>
+    <string name="matches_missing_count">Thiếu %1$d kỹ năng</string>
+    <string name="matches_no_missing_short">Đủ kỹ năng chính</string>
+    <string name="matches_web_evidence_count">%1$d nguồn web</string>
+    <string name="matches_extra_skills_count">+%1$d</string>
+    <string name="matches_no_job_title">Chưa có phiên phân tích nào</string>
+    <string name="matches_no_job_desc">Tải lên CV để AI phân tích năng lực hoặc mở hồ sơ đã lưu để chạy lại đối chiếu công ty.</string>
+    <string name="matches_action_open_profile">Mở hồ sơ đã lưu</string>
+    <string name="matches_empty_title">Chưa tìm thấy công ty phù hợp</string>
+    <string name="matches_empty_desc">Chưa tìm thấy công ty phù hợp cho hồ sơ này. Hãy cập nhật thêm kỹ năng hoặc thử quét CV chi tiết hơn.</string>
+    <string name="matches_filter_empty">Không có công ty nào khớp bộ lọc hiện tại.</string>
+    <string name="matches_action_clear_filters">Xóa bộ lọc</string>
+    <string name="matches_error_load">Không thể tải danh sách công ty gợi ý. Vui lòng thử lại</string>
+    <string name="matches_error_not_found">Không tìm thấy chi tiết gợi ý này</string>
+    <string name="matches_unknown_company">Công ty IT</string>
+    <string name="matches_unknown_role">Vị trí tuyển dụng</string>
+    <string name="match_detail_title">Chi tiết phù hợp</string>
+    <string name="match_detail_open_website">Mở website công ty</string>
+    <string name="match_detail_score_out_of">%1$d/100</string>
+    <string name="match_detail_section_breakdown">Điểm thành phần (50 / 25 / 25)</string>
+    <string name="match_detail_pillar_skills">Kỹ năng (Trọng số 50%%)</string>
+    <string name="match_detail_pillar_experience">Kinh nghiệm (Trọng số 25%%)</string>
+    <string name="match_detail_pillar_projects">Dự án thực tế (Trọng số 25%%)</string>
+    <string name="match_detail_section_reasoning">Phân tích giải thích từ AI</string>
+    <string name="match_detail_reasoning_empty">Chưa có mô tả chi tiết cho gợi ý này.</string>
+    <string name="match_detail_section_skill_gap">Phân tích khoảng trống kỹ năng</string>
+    <string name="match_detail_matched_skills">Kỹ năng phù hợp</string>
+    <string name="match_detail_missing_skills">Kỹ năng nên bổ sung</string>
+    <string name="match_detail_no_missing_skills">Bạn đã đáp ứng đầy đủ các kỹ năng trọng tâm.</string>
+    <string name="match_detail_no_matched_skills">Chưa ghi nhận kỹ năng trùng khớp trực tiếp.</string>
+    <string name="match_detail_section_web_evidence">Bằng chứng thực tế từ web</string>
+    <string name="match_detail_web_evidence_empty">Chưa có nguồn kiểm chứng web bổ sung cho công ty này.</string>
 </resources>
