@@ -29,9 +29,10 @@ class AuthViewModel @Inject constructor(
     val events: Flow<AuthEvent> = _events.receiveAsFlow()
 
     fun onEmailChange(value: String) {
+        val cleaned = AuthInputValidator.stripInvisibleChars(value)
         _uiState.update { state ->
             state.copy(
-                email = value,
+                email = cleaned,
                 emailError = null,
                 generalError = null,
             )
@@ -68,11 +69,13 @@ class AuthViewModel @Inject constructor(
         val current = _uiState.value
         if (current.isLoading) return
 
-        val emailError = AuthInputValidator.validateEmail(current.email)
+        val sanitizedEmail = AuthInputValidator.sanitizeEmail(current.email)
+        val emailError = AuthInputValidator.validateEmail(sanitizedEmail)
         val passwordError = AuthInputValidator.validatePassword(current.password)
         if (emailError != null || passwordError != null) {
             _uiState.update {
                 it.copy(
+                    email = sanitizedEmail,
                     emailError = emailError,
                     passwordError = passwordError,
                     generalError = null,
@@ -81,9 +84,9 @@ class AuthViewModel @Inject constructor(
             return
         }
 
-        val trimmedEmail = current.email.trim()
         _uiState.update {
             it.copy(
+                email = sanitizedEmail,
                 isLoading = true,
                 emailError = null,
                 passwordError = null,
@@ -92,7 +95,7 @@ class AuthViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            when (val result = authRepository.signIn(trimmedEmail, current.password)) {
+            when (val result = authRepository.signIn(sanitizedEmail, current.password)) {
                 is AppResult.Success -> {
                     _uiState.update { it.copy(isLoading = false) }
                 }
@@ -113,7 +116,8 @@ class AuthViewModel @Inject constructor(
         val current = _uiState.value
         if (current.isLoading) return
 
-        val emailError = AuthInputValidator.validateEmail(current.email)
+        val sanitizedEmail = AuthInputValidator.sanitizeEmail(current.email)
+        val emailError = AuthInputValidator.validateEmail(sanitizedEmail)
         val passwordError = AuthInputValidator.validatePassword(current.password)
         val confirmError = AuthInputValidator.validateConfirmPassword(
             password = current.password,
@@ -122,6 +126,7 @@ class AuthViewModel @Inject constructor(
         if (emailError != null || passwordError != null || confirmError != null) {
             _uiState.update {
                 it.copy(
+                    email = sanitizedEmail,
                     emailError = emailError,
                     passwordError = passwordError,
                     confirmPasswordError = confirmError,
@@ -131,9 +136,9 @@ class AuthViewModel @Inject constructor(
             return
         }
 
-        val trimmedEmail = current.email.trim()
         _uiState.update {
             it.copy(
+                email = sanitizedEmail,
                 isLoading = true,
                 emailError = null,
                 passwordError = null,
@@ -143,7 +148,7 @@ class AuthViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            when (val result = authRepository.signUp(trimmedEmail, current.password)) {
+            when (val result = authRepository.signUp(sanitizedEmail, current.password)) {
                 is AppResult.Success -> {
                     _uiState.update { it.copy(isLoading = false) }
                     when (result.data) {

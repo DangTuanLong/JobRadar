@@ -46,3 +46,6 @@ Thumbs.db
 # E2E Test Outputs (May contain sensitive CV data)
 /scripts/output/
 
+# Local run notes
+/runDevice.md
+

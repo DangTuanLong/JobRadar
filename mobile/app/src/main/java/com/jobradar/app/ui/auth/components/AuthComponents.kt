@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -80,6 +81,7 @@ fun EmailField(
     @StringRes errorRes: Int?,
     enabled: Boolean,
     modifier: Modifier = Modifier,
+    @StringRes placeholderRes: Int? = R.string.auth_email_placeholder,
 ) {
     OutlinedTextField(
         value = value,
@@ -88,12 +90,16 @@ fun EmailField(
         enabled = enabled,
         singleLine = true,
         label = { Text(text = stringResource(R.string.auth_email_label)) },
-        placeholder = { Text(text = stringResource(R.string.auth_email_placeholder)) },
+        placeholder = placeholderRes?.let { resId ->
+            { Text(text = stringResource(resId)) }
+        },
         isError = errorRes != null,
         supportingText = errorRes?.let { resId ->
             { Text(text = stringResource(resId)) }
         },
         keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
         ),

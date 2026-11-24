@@ -214,4 +214,39 @@ class AuthViewModelTest {
             advanceUntilIdle()
             assertFalse(viewModel.uiState.value.isLoading)
         }
+
+    @Test
+    fun `register strips invisible zero-width and control characters from email`() =
+        runTest(mainDispatcherRule.testDispatcher) {
+            repository.signUpResult = AppResult.Success(SignUpOutcome.SIGNED_IN)
+            viewModel.onEmailChange("\uFEFF\u0016tl1133210\u200B@gmail.com\u0008\u007F\u200E")
+            viewModel.onPasswordChange("secret123")
+            viewModel.onConfirmPasswordChange("secret123")
+
+            assertEquals("tl1133210@gmail.com", viewModel.uiState.value.email)
+
+            viewModel.register()
+            advanceUntilIdle()
+
+            assertNull(viewModel.uiState.value.emailError)
+            assertEquals(1, repository.signUpCalls)
+            assertEquals("tl1133210@gmail.com", repository.lastEmail)
+        }
+
+    @Test
+    fun `register normalizes fullwidth compatibility characters in email`() =
+        runTest(mainDispatcherRule.testDispatcher) {
+            repository.signUpResult = AppResult.Success(SignUpOutcome.SIGNED_IN)
+            viewModel.onEmailChange("tl1133210\uFF20gmail\uFF0Ecom")
+            viewModel.onPasswordChange("secret123")
+            viewModel.onConfirmPasswordChange("secret123")
+
+            viewModel.register()
+            advanceUntilIdle()
+
+            assertNull(viewModel.uiState.value.emailError)
+            assertEquals(1, repository.signUpCalls)
+            assertEquals("tl1133210@gmail.com", repository.lastEmail)
+            assertEquals("tl1133210@gmail.com", viewModel.uiState.value.email)
+        }
 }

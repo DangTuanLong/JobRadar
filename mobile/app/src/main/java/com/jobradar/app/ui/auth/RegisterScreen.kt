@@ -141,6 +141,7 @@ fun RegisterContent(
             onValueChange = onEmailChange,
             errorRes = uiState.emailError,
             enabled = fieldsEnabled,
+            placeholderRes = null,
         )
         Spacer(modifier = Modifier.height(12.dp))
 
