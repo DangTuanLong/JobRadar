@@ -17,14 +17,23 @@ private const val SUPABASE_OVER_EMAIL_RATE_LIMIT = "over_email_send_rate_limit"
 private const val HTTP_TOO_MANY_REQUESTS = 429
 
 /**
- * Maps Supabase Auth and Ktor/I/O exceptions to stable domain [AuthErrorCodes].
+ * Returns `true` when [Throwable] represents a connectivity or request timeout failure.
  */
-internal fun Throwable.toAuthError(): AppResult.Error = when (this) {
-    is RestException -> mapRestException(this)
+internal fun Throwable.isNetworkOrTimeoutFailure(): Boolean = when (this) {
     is HttpRequestException,
     is HttpRequestTimeoutException,
     is IOException,
-    -> AppResult.Error(
+    -> true
+
+    else -> false
+}
+
+/**
+ * Maps Supabase Auth and Ktor/I/O exceptions to stable domain [AuthErrorCodes].
+ */
+internal fun Throwable.toAuthError(): AppResult.Error = when {
+    this is RestException -> mapRestException(this)
+    isNetworkOrTimeoutFailure() -> AppResult.Error(
         code = AuthErrorCodes.NETWORK_ERROR,
         message = message ?: "Network connection failed.",
         cause = this,

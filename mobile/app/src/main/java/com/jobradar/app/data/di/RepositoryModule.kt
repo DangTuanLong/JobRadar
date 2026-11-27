@@ -3,12 +3,16 @@ package com.jobradar.app.data.di
 import com.jobradar.app.core.network.SessionTokenProvider
 import com.jobradar.app.data.file.DocumentFileHelper
 import com.jobradar.app.data.file.DocumentMultipartFactory
+import com.jobradar.app.data.local.AnalysisPreferencesDataStore
 import com.jobradar.app.data.repository.AnalysisRepositoryImpl
 import com.jobradar.app.data.repository.AuthRepositoryImpl
 import com.jobradar.app.data.repository.HealthRepositoryImpl
 import com.jobradar.app.data.repository.MatchRepositoryImpl
 import com.jobradar.app.data.repository.ProfileRepositoryImpl
+import com.jobradar.app.data.repository.SupabaseAuthGateway
+import com.jobradar.app.data.repository.SupabaseAuthGatewayImpl
 import com.jobradar.app.domain.repository.AnalysisRepository
+import com.jobradar.app.domain.repository.AnalysisSessionStorage
 import com.jobradar.app.domain.repository.AuthRepository
 import com.jobradar.app.domain.repository.DocumentFileInspector
 import com.jobradar.app.domain.repository.HealthRepository
@@ -27,6 +31,14 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindSupabaseAuthGateway(impl: SupabaseAuthGatewayImpl): SupabaseAuthGateway
+
+    @Binds
+    @Singleton
+    abstract fun bindAnalysisSessionStorage(impl: AnalysisPreferencesDataStore): AnalysisSessionStorage
 
     @Binds
     @Singleton

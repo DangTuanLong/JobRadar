@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.jobradar.app.BuildConfig
 import com.jobradar.app.R
 
 @Composable
@@ -124,7 +125,7 @@ fun AnalysisErrorCard(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )
-            if (!detailMessage.isNullOrBlank()) {
+            if (BuildConfig.DEBUG && !detailMessage.isNullOrBlank()) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = detailMessage,

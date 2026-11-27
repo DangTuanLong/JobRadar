@@ -1,6 +1,5 @@
 package com.jobradar.app.data.repository
 
-import android.util.Log
 import com.jobradar.app.core.config.AppConfig
 import com.jobradar.app.core.network.AppResult
 import com.jobradar.app.core.network.SessionTokenProvider
@@ -10,26 +9,23 @@ import com.jobradar.app.domain.model.AuthSessionState
 import com.jobradar.app.domain.model.SignUpOutcome
 import com.jobradar.app.domain.repository.AuthRepository
 import com.jobradar.app.domain.state.ActiveAnalysisStore
-import dagger.Lazy
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import java.util.logging.Level
+import java.util.logging.Logger
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val TAG = "AuthRepository"
+private val logger = Logger.getLogger("AuthRepository")
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-    private val supabase: Lazy<SupabaseClient>,
+    private val authGateway: SupabaseAuthGateway,
     private val config: AppConfig,
     private val activeAnalysisStore: ActiveAnalysisStore,
     private val matchCacheStore: MatchCacheStore,
@@ -37,10 +33,13 @@ class AuthRepositoryImpl @Inject constructor(
 
     override val sessionState: Flow<AuthSessionState> =
         if (!config.isSupabaseConfigured) {
-            flowOf(AuthSessionState.Unauthenticated)
+            flow {
+                clearLocalUserCaches()
+                emit(AuthSessionState.Unauthenticated)
+            }
         } else {
             flow {
-                emitAll(supabase.get().auth.sessionStatus.map(::toSessionState))
+                emitAll(authGateway.sessionStatus.map(::mapAndSyncSessionState))
             }.distinctUntilChanged()
         }
 
@@ -49,15 +48,12 @@ class AuthRepositoryImpl @Inject constructor(
             return configMissingError()
         }
         return try {
-            supabase.get().auth.signInWith(Email) {
-                this.email = email
-                this.password = password
-            }
+            authGateway.signInWithEmail(email = email, password = password)
             AppResult.Success(Unit)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            Log.w(TAG, "Sign in failed", e)
+            logger.log(Level.WARNING, "Sign in failed", e)
             e.toAuthError()
         }
     }
@@ -67,21 +63,12 @@ class AuthRepositoryImpl @Inject constructor(
             return configMissingError()
         }
         return try {
-            val auth = supabase.get().auth
-            auth.signUpWith(Email) {
-                this.email = email
-                this.password = password
-            }
-            val outcome = if (auth.currentSessionOrNull() != null) {
-                SignUpOutcome.SIGNED_IN
-            } else {
-                SignUpOutcome.CONFIRMATION_REQUIRED
-            }
+            val outcome = authGateway.signUpWithEmail(email = email, password = password)
             AppResult.Success(outcome)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            Log.w(TAG, "Sign up failed", e)
+            logger.log(Level.WARNING, "Sign up failed", e)
             e.toAuthError()
         }
     }
@@ -91,14 +78,28 @@ class AuthRepositoryImpl @Inject constructor(
             return configMissingError()
         }
         return try {
-            supabase.get().auth.signOut()
-            activeAnalysisStore.clear()
-            matchCacheStore.clear()
+            try {
+                authGateway.signOutRemote()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                if (e.isNetworkOrTimeoutFailure()) {
+                    logger.log(
+                        Level.FINE,
+                        "Remote sign-out failed while offline; falling back to local session cleanup",
+                        e,
+                    )
+                    authGateway.clearLocalSession()
+                } else {
+                    throw e
+                }
+            }
+            clearLocalUserCaches()
             AppResult.Success(Unit)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            Log.w(TAG, "Sign out failed", e)
+            logger.log(Level.WARNING, "Sign out failed", e)
             e.toAuthError()
         }
     }
@@ -107,28 +108,38 @@ class AuthRepositoryImpl @Inject constructor(
         if (!config.isSupabaseConfigured) {
             return null
         }
-        return supabase.get().auth.currentAccessTokenOrNull()
+        return authGateway.currentAccessTokenOrNull()
     }
 
-    private fun toSessionState(status: SessionStatus): AuthSessionState = when (status) {
+    private suspend fun mapAndSyncSessionState(status: SessionStatus): AuthSessionState = when (status) {
         SessionStatus.Initializing -> AuthSessionState.Loading
-        is SessionStatus.Authenticated -> AuthSessionState.Authenticated(
-            userId = status.session.user?.id.orEmpty(),
-            email = status.session.user?.email,
-        )
+        is SessionStatus.Authenticated -> {
+            val userId = status.session.user?.id.orEmpty()
+            val switchedAccount = activeAnalysisStore.onAuthenticated(userId)
+            if (switchedAccount) {
+                matchCacheStore.clear()
+            }
+            AuthSessionState.Authenticated(
+                userId = userId,
+                email = status.session.user?.email,
+            )
+        }
 
         is SessionStatus.NotAuthenticated -> {
-            activeAnalysisStore.clear()
-            matchCacheStore.clear()
+            clearLocalUserCaches()
             AuthSessionState.Unauthenticated
         }
 
         is SessionStatus.RefreshFailure -> {
-            Log.w(TAG, "Session refresh failed")
-            activeAnalysisStore.clear()
-            matchCacheStore.clear()
+            logger.log(Level.WARNING, "Session refresh failed")
+            clearLocalUserCaches()
             AuthSessionState.Unauthenticated
         }
+    }
+
+    private suspend fun clearLocalUserCaches() {
+        activeAnalysisStore.clear()
+        matchCacheStore.clear()
     }
 
     private fun configMissingError(): AppResult.Error = AppResult.Error(

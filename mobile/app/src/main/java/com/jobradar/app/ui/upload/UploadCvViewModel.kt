@@ -228,7 +228,7 @@ class UploadCvViewModel @Inject constructor(
         }
     }
 
-    private fun applyJobUpdate(job: AnalysisJob) {
+    private suspend fun applyJobUpdate(job: AnalysisJob) {
         when (job.status) {
             AnalysisJobStatus.PENDING,
             AnalysisJobStatus.EXTRACTING,
